@@ -1,0 +1,48 @@
+AppBundle\Entity\Attributes:
+    type: entity
+    table: attributes
+    indexes:
+        fk_attributes_content1_idx:
+            columns:
+                - content_id
+        fk_attributes_template_element1_idx:
+            columns:
+                - template_element_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        value:
+            type: blob
+            nullable: false
+            length: 65535
+            options:
+                fixed: false
+    manyToOne:
+        content:
+            targetEntity: Content
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                content_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        templateElement:
+            targetEntity: TemplateElement
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                template_element_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

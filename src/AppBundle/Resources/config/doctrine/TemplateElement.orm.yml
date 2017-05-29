@@ -1,0 +1,41 @@
+AppBundle\Entity\TemplateElement:
+    type: entity
+    table: template_element
+    indexes:
+        fk_template_element_template1_idx:
+            columns:
+                - template_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        xpath:
+            type: text
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+    manyToOne:
+        template:
+            targetEntity: Template
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                template_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }
