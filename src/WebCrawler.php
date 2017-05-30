@@ -27,8 +27,12 @@ class WebCrawler
 	{
 		$crawler = $this->client->request('GET', $this->baseUrl);
 
+		if (strstr($this->baseUrl, 'altex'))
+			$urls = $crawler->filter('html body.catalog-category-view.categorypath-telefoane-tablete-si-gadgets-tablete.category-tablete div.u-container main.lg-u-space-pb-20 div.u-clearfix div.lg-u-float-right.lg-u-size-8of10 div#catalog-products-container ul.Products.Products--grid.Products--4to2 li.Products-item div.Product div.Product-list-right h2.Product-nameHeading a.Product-name.js-ProductClickListener');
+		else
+			$urls = $crawler->filter('html body.nisp.with-branding.active-branding div#container div.main-content.clearfix div#content-wrapper div#listing-right div.grid-products.clearfix.product-list-container div.product-box-container div.product-box div.pb-specs-container div.pb-name a');
+
 //		$urls = $crawler->filterXPath('/html/body/div[3]/div[2]/div[2]/div[2]/div[3]/div[1]/div/div[2]/div[1]/a');
-		$urls = $crawler->filter('div.pb-name a');
 
 //		var_dump($urls);
 

@@ -28,7 +28,7 @@ EOT
 
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{
-		$fetcher = new WebCrawler();
+		$fetcher = new WebCrawler(/*"https://altex.ro/telefoane-tablete-si-gadgets/tablete"*/);
 
 		$fetcher->execute();
 	}
