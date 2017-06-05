@@ -17,6 +17,18 @@ class Category
      */
     private $name;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $sites;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->sites = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -50,6 +62,40 @@ class Category
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Add site
+     *
+     * @param \AppBundle\Entity\Sites $site
+     *
+     * @return Category
+     */
+    public function addSite(\AppBundle\Entity\Sites $site)
+    {
+        $this->sites[] = $site;
+
+        return $this;
+    }
+
+    /**
+     * Remove site
+     *
+     * @param \AppBundle\Entity\Sites $site
+     */
+    public function removeSite(\AppBundle\Entity\Sites $site)
+    {
+        $this->sites->removeElement($site);
+    }
+
+    /**
+     * Get sites
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSites()
+    {
+        return $this->sites;
     }
 }
 

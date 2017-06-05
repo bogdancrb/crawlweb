@@ -21,21 +21,27 @@ AppBundle\Entity\TemplateElement:
             length: 255
             options:
                 fixed: false
-        xpath:
+        cssPath:
             type: text
             nullable: false
             length: 255
             options:
                 fixed: false
+            column: css_path
     manyToOne:
         template:
             targetEntity: Template
             cascade: {  }
             fetch: LAZY
             mappedBy: null
-            inversedBy: null
+            inversedBy: templateElement
             joinColumns:
                 template_id:
                     referencedColumnName: id
             orphanRemoval: false
+    oneToMany:
+        attributes:
+            targetEntity: Attributes
+            mappedBy: templateElement
     lifecycleCallbacks: {  }
+    repositoryClass: AppBundle\Repository\TemplateElementRepository

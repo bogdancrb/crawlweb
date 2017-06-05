@@ -2,9 +2,9 @@ AppBundle\Entity\Content:
     type: entity
     table: content
     indexes:
-        fk_content_category1_idx:
+        fk_content_sites1_idx:
             columns:
-                - category_id
+                - sites_id
     id:
         id:
             type: integer
@@ -21,15 +21,24 @@ AppBundle\Entity\Content:
             length: 65535
             options:
                 fixed: false
+        lastAccessed:
+            type: datetime
+            nullable: true
+            column: last_accessed
     manyToOne:
-        category:
-            targetEntity: Category
+        sites:
+            targetEntity: Sites
             cascade: {  }
             fetch: LAZY
             mappedBy: null
-            inversedBy: null
+            inversedBy: sites
             joinColumns:
-                category_id:
+                sites_id:
                     referencedColumnName: id
             orphanRemoval: false
+    oneToMany:
+        attributes:
+            targetEntity: Attributes
+            mappedBy: content
     lifecycleCallbacks: {  }
+    repositoryClass: AppBundle\Repository\ContentRepository

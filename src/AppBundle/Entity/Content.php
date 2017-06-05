@@ -18,10 +18,27 @@ class Content
     private $url;
 
     /**
-     * @var \AppBundle\Entity\Category
+     * @var \DateTime
      */
-    private $category;
+    private $lastAccessed;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $attributes;
+
+    /**
+     * @var \AppBundle\Entity\Sites
+     */
+    private $sites;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->attributes = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -58,27 +75,85 @@ class Content
     }
 
     /**
-     * Set category
+     * Set lastAccessed
      *
-     * @param \AppBundle\Entity\Category $category
+     * @param \DateTime $lastAccessed
      *
      * @return Content
      */
-    public function setCategory(\AppBundle\Entity\Category $category = null)
+    public function setLastAccessed($lastAccessed)
     {
-        $this->category = $category;
+        $this->lastAccessed = $lastAccessed;
 
         return $this;
     }
 
     /**
-     * Get category
+     * Get lastAccessed
      *
-     * @return \AppBundle\Entity\Category
+     * @return \DateTime
      */
-    public function getCategory()
+    public function getLastAccessed()
     {
-        return $this->category;
+        return $this->lastAccessed;
+    }
+
+    /**
+     * Add attribute
+     *
+     * @param \AppBundle\Entity\Attributes $attribute
+     *
+     * @return Content
+     */
+    public function addAttribute(\AppBundle\Entity\Attributes $attribute)
+    {
+        $this->attributes[] = $attribute;
+
+        return $this;
+    }
+
+    /**
+     * Remove attribute
+     *
+     * @param \AppBundle\Entity\Attributes $attribute
+     */
+    public function removeAttribute(\AppBundle\Entity\Attributes $attribute)
+    {
+        $this->attributes->removeElement($attribute);
+    }
+
+    /**
+     * Get attributes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * Set sites
+     *
+     * @param \AppBundle\Entity\Sites $sites
+     *
+     * @return Content
+     */
+    public function setSites(\AppBundle\Entity\Sites $sites = null)
+    {
+        $this->sites = $sites;
+
+        return $this;
+    }
+
+    /**
+     * Get sites
+     *
+     * @return \AppBundle\Entity\Sites
+     */
+    public function getSites()
+    {
+        return $this->sites;
     }
 }
 

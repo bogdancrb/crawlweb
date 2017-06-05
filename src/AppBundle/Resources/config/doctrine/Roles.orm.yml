@@ -18,3 +18,4 @@ AppBundle\Entity\Roles:
             options:
                 fixed: false
     lifecycleCallbacks: {  }
+    repositoryClass: AppBundle\Repository\RolesRepository

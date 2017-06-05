@@ -17,4 +17,9 @@ AppBundle\Entity\Category:
             length: 45
             options:
                 fixed: false
+    oneToMany:
+        sites:
+          targetEntity: Sites
+          mappedBy: category
     lifecycleCallbacks: {  }
+    repositoryClass: AppBundle\Repository\CategoryRepository

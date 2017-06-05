@@ -18,10 +18,22 @@ class Template
     private $name;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $templateElement;
+
+    /**
      * @var \AppBundle\Entity\Sites
      */
     private $sites;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->templateElement = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -55,6 +67,40 @@ class Template
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Add templateElement
+     *
+     * @param \AppBundle\Entity\TemplateElement $templateElement
+     *
+     * @return Template
+     */
+    public function addTemplateElement(\AppBundle\Entity\TemplateElement $templateElement)
+    {
+        $this->templateElement[] = $templateElement;
+
+        return $this;
+    }
+
+    /**
+     * Remove templateElement
+     *
+     * @param \AppBundle\Entity\TemplateElement $templateElement
+     */
+    public function removeTemplateElement(\AppBundle\Entity\TemplateElement $templateElement)
+    {
+        $this->templateElement->removeElement($templateElement);
+    }
+
+    /**
+     * Get templateElement
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTemplateElement()
+    {
+        return $this->templateElement;
     }
 
     /**

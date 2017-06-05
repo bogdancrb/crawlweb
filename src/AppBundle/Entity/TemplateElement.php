@@ -20,13 +20,25 @@ class TemplateElement
     /**
      * @var string
      */
-    private $xpath;
+    private $cssPath;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $attributes;
 
     /**
      * @var \AppBundle\Entity\Template
      */
     private $template;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->attributes = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -63,27 +75,61 @@ class TemplateElement
     }
 
     /**
-     * Set xpath
+     * Set cssPath
      *
-     * @param string $xpath
+     * @param string $cssPath
      *
      * @return TemplateElement
      */
-    public function setXpath($xpath)
+    public function setCssPath($cssPath)
     {
-        $this->xpath = $xpath;
+        $this->cssPath = $cssPath;
 
         return $this;
     }
 
     /**
-     * Get xpath
+     * Get cssPath
      *
      * @return string
      */
-    public function getXpath()
+    public function getCssPath()
     {
-        return $this->xpath;
+        return $this->cssPath;
+    }
+
+    /**
+     * Add attribute
+     *
+     * @param \AppBundle\Entity\Attributes $attribute
+     *
+     * @return TemplateElement
+     */
+    public function addAttribute(\AppBundle\Entity\Attributes $attribute)
+    {
+        $this->attributes[] = $attribute;
+
+        return $this;
+    }
+
+    /**
+     * Remove attribute
+     *
+     * @param \AppBundle\Entity\Attributes $attribute
+     */
+    public function removeAttribute(\AppBundle\Entity\Attributes $attribute)
+    {
+        $this->attributes->removeElement($attribute);
+    }
+
+    /**
+     * Get attributes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
     }
 
     /**

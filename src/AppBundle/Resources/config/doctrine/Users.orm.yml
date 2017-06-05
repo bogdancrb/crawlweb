@@ -25,3 +25,4 @@ AppBundle\Entity\Users:
                 fixed: true
                 default: ''
     lifecycleCallbacks: {  }
+    repositoryClass: AppBundle\Repository\UsersRepository

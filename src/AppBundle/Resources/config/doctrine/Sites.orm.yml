@@ -34,9 +34,17 @@ AppBundle\Entity\Sites:
             cascade: {  }
             fetch: LAZY
             mappedBy: null
-            inversedBy: null
+            inversedBy: sites
             joinColumns:
                 category_id:
                     referencedColumnName: id
             orphanRemoval: false
+    oneToMany:
+        content:
+            targetEntity: Content
+            mappedBy: sites
+        template:
+            targetEntity: Template
+            mappedBy: sites
     lifecycleCallbacks: {  }
+    repositoryClass: AppBundle\Repository\SitesRepository

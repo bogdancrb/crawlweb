@@ -27,9 +27,14 @@ AppBundle\Entity\Template:
             cascade: {  }
             fetch: LAZY
             mappedBy: null
-            inversedBy: null
+            inversedBy: sites
             joinColumns:
                 sites_id:
                     referencedColumnName: id
             orphanRemoval: false
+    oneToMany:
+        templateElement:
+            targetEntity: TemplateElement
+            mappedBy: template
     lifecycleCallbacks: {  }
+    repositoryClass: AppBundle\Repository\TemplateRepository

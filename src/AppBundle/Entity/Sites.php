@@ -23,10 +23,28 @@ class Sites
     private $mainUrl;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $content;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $template;
+
+    /**
      * @var \AppBundle\Entity\Category
      */
     private $category;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->content = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->template = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -84,6 +102,74 @@ class Sites
     public function getMainUrl()
     {
         return $this->mainUrl;
+    }
+
+    /**
+     * Add content
+     *
+     * @param \AppBundle\Entity\Content $content
+     *
+     * @return Sites
+     */
+    public function addContent(\AppBundle\Entity\Content $content)
+    {
+        $this->content[] = $content;
+
+        return $this;
+    }
+
+    /**
+     * Remove content
+     *
+     * @param \AppBundle\Entity\Content $content
+     */
+    public function removeContent(\AppBundle\Entity\Content $content)
+    {
+        $this->content->removeElement($content);
+    }
+
+    /**
+     * Get content
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    /**
+     * Add template
+     *
+     * @param \AppBundle\Entity\Template $template
+     *
+     * @return Sites
+     */
+    public function addTemplate(\AppBundle\Entity\Template $template)
+    {
+        $this->template[] = $template;
+
+        return $this;
+    }
+
+    /**
+     * Remove template
+     *
+     * @param \AppBundle\Entity\Template $template
+     */
+    public function removeTemplate(\AppBundle\Entity\Template $template)
+    {
+        $this->template->removeElement($template);
+    }
+
+    /**
+     * Get template
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTemplate()
+    {
+        return $this->template;
     }
 
     /**

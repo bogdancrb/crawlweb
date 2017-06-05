@@ -7,7 +7,9 @@ if (PHP_SAPI !== 'cli') {
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use Fetcher\Console\Application;
+use CrawlerBundle\Controller\Console\Application;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Debug\Debug;
 
 if (function_exists('ini_set')) {
     @ini_set('display_errors', 1);
@@ -36,6 +38,18 @@ if (function_exists('ini_set')) {
 
 set_time_limit(0);
 
+/** @var Composer\Autoload\ClassLoader $loader */
+$loader = require __DIR__.'/../app/autoload.php';
+
+$input = new ArgvInput();
+$env = $input->getParameterOption(['--env', '-e'], getenv('SYMFONY_ENV') ?: 'dev');
+$debug = getenv('SYMFONY_DEBUG') !== '0' && !$input->hasParameterOption(['--no-debug', '']) && $env !== 'prod';
+
+if ($debug) {
+    Debug::enable();
+}
+
 // run the command application
-$application = new Application();
+$kernel = new AppKernel($env, $debug);
+$application = new Application($kernel);
 $application->run();
