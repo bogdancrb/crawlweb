@@ -1,0 +1,2 @@
+parameters:
+  crawler.time_interval: 5 # value in hours

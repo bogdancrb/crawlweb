@@ -40,6 +40,8 @@ EOT
 
 	private function initServiceContainer()
 	{
+		ServiceContainer::setContainer($this->getContainer());
+
 		ServiceContainer::initParams([
 			'doctrine' => $this->getContainer()->get('doctrine')
 		]);

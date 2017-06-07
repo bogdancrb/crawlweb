@@ -27,7 +27,7 @@ AppBundle\Entity\Template:
             cascade: {  }
             fetch: LAZY
             mappedBy: null
-            inversedBy: sites
+            inversedBy: template
             joinColumns:
                 sites_id:
                     referencedColumnName: id

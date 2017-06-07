@@ -10,10 +10,15 @@ namespace AppBundle\Repository;
  */
 class ContentRepository extends \Doctrine\ORM\EntityRepository
 {
-	public function retrieveContent()
+	public function retrieveContent($timeInterval)
 	{
 		$query = $this->createQueryBuilder('c')
 			->select('c')
+			->where('DATE_ADD(c.lastAccessed, :timeIntervalValue, \'hour\') <= :now OR c.lastAccessed IS NULL')
+			->setParameters([
+				'timeIntervalValue' => $timeInterval,
+				'now' => new \DateTime('now')
+			])
 			->getQuery();
 
 		$result = $query->getResult();

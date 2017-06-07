@@ -30,7 +30,7 @@ AppBundle\Entity\Attributes:
             cascade: {  }
             fetch: LAZY
             mappedBy: null
-            inversedBy: content
+            inversedBy: attributes
             joinColumns:
                 content_id:
                     referencedColumnName: id
@@ -40,7 +40,7 @@ AppBundle\Entity\Attributes:
             cascade: {  }
             fetch: LAZY
             mappedBy: null
-            inversedBy: templateElement
+            inversedBy: attributes
             joinColumns:
                 template_element_id:
                     referencedColumnName: id
