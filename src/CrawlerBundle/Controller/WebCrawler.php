@@ -5,6 +5,8 @@ namespace CrawlerBundle\Controller;
 use AppBundle\Entity\Attributes;
 use AppBundle\Entity\Content;
 use AppBundle\Entity\Sites;
+use AppBundle\Entity\Template;
+use AppBundle\Entity\TemplateElement;
 use CrawlerBundle\Command\WebCrawlerCommand;
 use CrawlerBundle\ServiceContainer;
 use Doctrine\ORM\EntityManager;
@@ -56,21 +58,26 @@ class WebCrawler
 		/** @var Content $content */
 		foreach ($crawlContent as $content)
 		{
+			$foundTemplate = false;
+			$outdatedTemplate = false;
+
 			var_dump($content->getUrl());
 			$crawler = $this->client->request('GET', $content->getUrl());
 
 			if ($content->getAttributes()->count() > 0)
 			{
-//				/** @var Attributes $attribute */
-//				foreach ($content->getAttributes() as $attribute)
-//				{
-//					var_dump('[OLD DATA]: ' . $attribute->getTemplateElement()->getName()
-//						. ': ' . strip_tags(fread($attribute->getValue(), 10000)));
-//					var_dump($attribute->getTemplateElement()->getCssPath());
-//
-//					$extractedValues = $crawler->filter($attribute->getTemplateElement()->getCssPath());
-//
-//					/** @var \DOMElement $value */
+				/** @var Attributes $attribute */
+				foreach ($content->getAttributes() as $attribute)
+				{
+					var_dump('[OLD DATA]: ' . $attribute->getTemplateElement()->getName()
+						. ': ' . strip_tags(fread($attribute->getValue(), 10000)));
+					var_dump($attribute->getTemplateElement()->getCssPath());
+
+					$extractedValue = $crawler->filter($attribute->getTemplateElement()->getCssPath())->text();
+
+					var_dump('[NEW DATA]: ' . $attribute->getTemplateElement()->getName() . ': ' . $extractedValue);
+
+					/** @var \DOMElement $value */
 //					foreach ($extractedValues as $value)
 //					{
 //						var_dump('[NEW DATA]: ' . $attribute->getTemplateElement()->getName() . ': ' . $value->nodeValue);
@@ -80,44 +87,68 @@ class WebCrawler
 //							var_dump($value->getAttribute('href'));
 //						}
 //					}
-//					var_dump("######################################");
-//				}
+					var_dump("######################################");
+				}
 			}
 			else
 			{
-				var_dump($content->getSites()->getTemplate()[0]->getName());
-				var_dump($content->getSites()->getTemplate()[0]->getTemplateElement()[0]->getName());
+				$templates = $content->getSites()->getTemplate();
 
-//				$crawlSites = $this->entityManager->getRepository('AppBundle:Sites')->findOneById($content->getSites()->getId());
-//
-//				/** @var Sites $site */
-//				foreach ($crawlSites as $site)
-//				{
-//					var_dump($site->getTemplate()->getTemplateElement()->getName());
-//				}
+				/** @var Template $template */
+				foreach ($templates as $template)
+				{
+					$templateElements = $template->getTemplateElement();
+
+					var_dump($template->getName());
+
+					/** @var TemplateElement $templateElement */
+					foreach ($templateElements as $templateElement)
+					{
+						$extractedValues = $crawler->filter($templateElement->getCssPath());
+
+						if (count($extractedValues) > 0)
+						{
+							/** @var \DOMElement $value */
+							foreach ($extractedValues as $value)
+							{
+								$foundTemplate = true;
+
+								var_dump('[NEW DATA]: ' . $templateElement->getName() . ': ' . $value->nodeValue);
+
+								if (!empty($value->getAttribute('href')))
+								{
+									var_dump('HREF FOUND: ' . $value->getAttribute('href'));
+								}
+							}
+						}
+						else
+						{
+							$outdatedTemplate = true;
+						}
+					}
+
+					if ($foundTemplate)
+					{
+						break;
+					}
+				}
+
+				if (!$foundTemplate)
+				{
+					// TODO log error and mail
+					// TODO mark content as failed in DB
+
+					var_dump('no tempalte found');
+				}
+
+				if ($outdatedTemplate)
+				{
+					// TODO log error and mail
+					// TODO mark content as outdated in DB
+				}
 			}
-		}
 
-//		$this->baseUrl = "http://www.pcgarage.ro/mouse-gaming/marvo/m205-red/";
-//		$crawler = $this->client->request('GET', $this->baseUrl);
-//
-//		$urls = $crawler->filter('html body.nisp.with-branding.active-branding div#container div.main-content.clearfix h1.p-name');
-//
-//		/** @var \DOMElement $url */
-//		foreach ($urls as $url)
-//		{
-////			var_dump($url->getNodePath());
-//			var_dump($url->nodeValue);
-//
-////			if (!empty($url->getAttribute('title')))
-////			{
-////				var_dump($url->getAttribute('title'));
-////			}
-////
-//			if (!empty($url->getAttribute('href')))
-//			{
-//				var_dump($url->getAttribute('href'));
-//			}
-//		}
+			//sleep(5); // add delay
+		}
 	}
 }
