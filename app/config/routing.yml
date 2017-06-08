@@ -6,3 +6,6 @@ crawler:
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
+content:
+    type:     rest
+    resource: ApiBundle\Controller\DefaultController 
