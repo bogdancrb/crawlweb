@@ -10,4 +10,23 @@ namespace AppBundle\Repository;
  */
 class AttributesRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function findByContentIdAndTemplateElementId($contentId, $templateElementId)
+	{
+		$query = $this->createQueryBuilder('a')
+			->select('a')
+			->where('a.content = :contentId')
+			->andWhere('a.templateElement = :templateElementId')
+			->setParameters([
+				'contentId'			=> $contentId,
+				'templateElementId' => $templateElementId
+			])
+			->getQuery();
+
+		$result = $query->getOneOrNullResult();
+
+		$query->free();
+		unset($query);
+
+		return $result;
+	}
 }

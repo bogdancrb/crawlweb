@@ -22,6 +22,7 @@ class WebCrawler
 {
 	private $baseUrl;
 	private $client;
+	private $currentTemplateElementIds;
 
 	/** @var  EntityManager */
 	private $entityManager;
@@ -44,6 +45,7 @@ class WebCrawler
 
 		$this->container = ServiceContainer::getContainer();
 		$this->entityManager = ServiceContainer::get('doctrine')->getEntityManager();
+		$this->currentTemplateElementIds = [];
 	}
 
 	/**
@@ -58,36 +60,69 @@ class WebCrawler
 		/** @var Content $content */
 		foreach ($crawlContent as $content)
 		{
+			var_dump("","","","");
+
 			$foundTemplate = false;
-			$outdatedTemplate = false;
 
 			var_dump($content->getUrl());
 			$crawler = $this->client->request('GET', $content->getUrl());
 
 			if ($content->getAttributes()->count() > 0)
 			{
+				$templateElementIds = [];
+				$templateId = 0;
+
 				/** @var Attributes $attribute */
 				foreach ($content->getAttributes() as $attribute)
 				{
+					$templateId = $attribute->getTemplateElement()->getTemplate()->getId();
+
+					$templateElementIds[] = $attribute->getTemplateElement()->getId();
+
 					var_dump('[OLD DATA]: ' . $attribute->getTemplateElement()->getName()
 						. ': ' . strip_tags(fread($attribute->getValue(), 10000)));
 					var_dump($attribute->getTemplateElement()->getCssPath());
 
 					$extractedValue = $crawler->filter($attribute->getTemplateElement()->getCssPath())->text();
 
-					var_dump('[NEW DATA]: ' . $attribute->getTemplateElement()->getName() . ': ' . $extractedValue);
+					var_dump('[NEW DATA]: ' . $attribute->getTemplateElement()->getName() . ': ' . trim($extractedValue));
 
-					/** @var \DOMElement $value */
-//					foreach ($extractedValues as $value)
-//					{
-//						var_dump('[NEW DATA]: ' . $attribute->getTemplateElement()->getName() . ': ' . $value->nodeValue);
-//
-//						if (!empty($value->getAttribute('href')))
-//						{
-//							var_dump($value->getAttribute('href'));
-//						}
-//					}
 					var_dump("######################################");
+				}
+
+				$currentTemplateElementIds = $this->entityManager->getRepository('AppBundle:TemplateElement')->findByTemplateId($templateId);
+
+				array_walk($currentTemplateElementIds, function($elem){
+					$this->currentTemplateElementIds[] = $elem['id'];
+				});
+
+				$newTemplateElementIds = array_diff($this->currentTemplateElementIds, $templateElementIds);
+
+				if (!empty($newTemplateElementIds))
+				{
+					$newTemplateElements = $this->entityManager->getRepository('AppBundle:TemplateElement')->findByIds($newTemplateElementIds);
+
+					/** @var TemplateElement $templateElement */
+					foreach ($newTemplateElements as $templateElement)
+					{
+						$extractedValues = $crawler->filter($templateElement->getCssPath());
+
+						if (count($extractedValues) > 0)
+						{
+							/** @var \DOMElement $value */
+							foreach ($extractedValues as $value)
+							{
+								$foundTemplate = true;
+
+								var_dump('[NEW DATA]: ' . $templateElement->getName() . ': ' . trim($value->nodeValue));
+
+								if (!empty($value->getAttribute('href')))
+								{
+									var_dump('HREF FOUND: ' . $value->getAttribute('href'));
+								}
+							}
+						}
+					}
 				}
 			}
 			else
@@ -97,6 +132,8 @@ class WebCrawler
 				/** @var Template $template */
 				foreach ($templates as $template)
 				{
+					$outdatedTemplate = false;
+					
 					$templateElements = $template->getTemplateElement();
 
 					var_dump($template->getName());
@@ -113,7 +150,7 @@ class WebCrawler
 							{
 								$foundTemplate = true;
 
-								var_dump('[NEW DATA]: ' . $templateElement->getName() . ': ' . $value->nodeValue);
+								var_dump('[NEW DATA]: ' . $templateElement->getName() . ': ' . trim($value->nodeValue));
 
 								if (!empty($value->getAttribute('href')))
 								{
@@ -138,13 +175,14 @@ class WebCrawler
 					// TODO log error and mail
 					// TODO mark content as failed in DB
 
-					var_dump('no tempalte found');
+					var_dump('no template found');
 				}
 
 				if ($outdatedTemplate)
 				{
 					// TODO log error and mail
 					// TODO mark content as outdated in DB
+					var_dump('template outdated');
 				}
 			}
 

@@ -10,20 +10,4 @@ namespace AppBundle\Repository;
  */
 class SitesRepository extends \Doctrine\ORM\EntityRepository
 {
-	public function findOneById($siteId)
-	{
-		$query = $this->createQueryBuilder('s')
-			->select('s')
-			->where('s.id = ?1')
-			->setParameter(1, $siteId)
-			->groupBy('s.id')
-			->getQuery();
-
-		$result = $query->getResult();
-
-		$query->free();
-		unset($query);
-
-		return $result;
-	}
 }
