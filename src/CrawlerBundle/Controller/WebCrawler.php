@@ -4,15 +4,12 @@ namespace CrawlerBundle\Controller;
 
 use AppBundle\Entity\Attributes;
 use AppBundle\Entity\Content;
-use AppBundle\Entity\Sites;
 use AppBundle\Entity\Template;
 use AppBundle\Entity\TemplateElement;
-use CrawlerBundle\Command\WebCrawlerCommand;
 use CrawlerBundle\ServiceContainer;
 use Doctrine\ORM\EntityManager;
 use Goutte\Client;
 use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\EventDispatcher\Tests\Service;
 
 /**
  * Class WebCrawler
@@ -20,7 +17,6 @@ use Symfony\Component\EventDispatcher\Tests\Service;
  */
 class WebCrawler
 {
-	private $baseUrl;
 	private $client;
 	private $currentTemplateElementIds;
 
@@ -63,6 +59,7 @@ class WebCrawler
 			var_dump("","","","");
 
 			$foundTemplate = false;
+			$outdatedTemplate = false;
 
 			var_dump($content->getUrl());
 			$crawler = $this->client->request('GET', $content->getUrl());
@@ -123,6 +120,14 @@ class WebCrawler
 							}
 						}
 					}
+
+					if (!$foundTemplate)
+					{
+						// TODO log error and mail
+						// TODO mark content as failed in DB
+
+						var_dump('[1] no template found');
+					}
 				}
 			}
 			else
@@ -150,7 +155,10 @@ class WebCrawler
 							{
 								$foundTemplate = true;
 
-								var_dump('[NEW DATA]: ' . $templateElement->getName() . ': ' . trim($value->nodeValue));
+								if (!empty($value->nodeValue))
+								{
+									var_dump('[NEW DATA]: ' . $templateElement->getName() . ': ' . trim($value->nodeValue));
+								}
 
 								if (!empty($value->getAttribute('href')))
 								{
@@ -175,10 +183,9 @@ class WebCrawler
 					// TODO log error and mail
 					// TODO mark content as failed in DB
 
-					var_dump('no template found');
+					var_dump('[2] no template found');
 				}
-
-				if ($outdatedTemplate)
+				else if ($outdatedTemplate)
 				{
 					// TODO log error and mail
 					// TODO mark content as outdated in DB
