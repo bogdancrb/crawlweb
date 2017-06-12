@@ -6,6 +6,11 @@ crawler:
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
+
 content:
     type:     rest
-    resource: ApiBundle\Controller\DefaultController 
+    resource: ApiBundle\Controller\DefaultController
+
+test:
+     type:     rest
+     resource: ApiBundle\Controller\Test

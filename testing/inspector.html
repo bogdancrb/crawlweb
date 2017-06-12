@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Inspector</title>
+
+    <script src="../web/assets/js/jquery-3.2.1.js" ></script>
+</head>
+<body>
+
+<div class="test">
+
+</div>
+
+<script>
+    function sendAjaxRequest(){
+        $.ajax({
+            type: "POST",
+            dataType: 'html',
+            url: "/licenta/crawlweb/web/proxies",
+            data: {
+                restUrl : "http://www.pcgarage.ro",
+                method: 'POST'
+            },
+            success: function(data, textStatus, jqXHR) {
+                $('.test').html(data);
+            }
+        });
+    }
+
+    $(document).ready(function(){
+        sendAjaxRequest();
+    });
+</script>
+
+</body>
+</html>
