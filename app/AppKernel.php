@@ -19,6 +19,8 @@ class AppKernel extends Kernel
             new CrawlerBundle\CrawlerBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new FOS\RestBundle\FOSRestBundle(),
+            new ApiBundle\ApiBundle(),
+            new ProxyBundle\ProxyBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

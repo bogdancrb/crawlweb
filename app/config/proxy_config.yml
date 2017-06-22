@@ -1,0 +1,23 @@
+parameters:
+  # a unique key that identifies this application - DO NOT LEAVE THIS EMPTY!
+  proxy.app_key: '93348af4946d82484b2de4fc7c2f417a'
+  proxy.encryption_key: ''
+  proxy.url_mode: 2
+  proxy.plugins:
+    - 'HeaderRewrite'
+    - 'Stream'
+    # ^^ do not disable any of the plugins above
+    - 'Cookie'
+    - 'Proxify'
+    - 'UrlForm'
+    # site specific plugins below
+    - 'Youtube'
+    - 'DailyMotion'
+    - 'Twitter'
+  proxy.curl:
+    CURLOPT_PROXY: ''
+    CURLOPT_CONNECTTIMEOUT: 0
+  proxy.replace_title: ''
+  proxy.error_redirect: ''
+  proxy.index_redirect: ''
+  proxy.replace_icon: ''

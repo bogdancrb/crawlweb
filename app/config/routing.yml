@@ -1,3 +1,8 @@
+proxy:
+    resource: "@ProxyBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 crawler:
     resource: "@CrawlerBundle/Controller/"
     type:     annotation
@@ -11,6 +16,7 @@ content:
     type:     rest
     resource: ApiBundle\Controller\DefaultController
 
-test:
-     type:     rest
-     resource: ApiBundle\Controller\Test
+proxy_rest:
+    type:     rest
+    resource: ProxyBundle\Controller\DefaultController
+    prefix:   /proxy
