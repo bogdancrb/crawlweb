@@ -7,6 +7,30 @@
  * CGIProxy, Surrogafier, ASProxy, Zelune... but all have either perished permanently or the creator
  * has stopped updating them. This proxy script is intended to replace all others.
  *
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2015
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
+ * Source: https://github.com/Athlon1600/php-proxy-app
+ *
  * Created by: https://www.php-proxy.com/
  * Modified by: Bogdan Corbeanu
  */
@@ -27,10 +51,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Cookie;
 
-class DefaultController extends Controller
+class ProxyController extends Controller
 {
     /**
-     * @Route("/proxy")
+     * @Route("/proxy", name="proxy_index")
      */
     public function indexAction()
     {
@@ -64,7 +88,7 @@ class DefaultController extends Controller
                 header("HTTP/1.1 302 Found");
                 header("Location: ".Config::get('index_redirect'));
             } else {
-                echo render_template($templatePath . 'main.php', array('version' => Proxy::VERSION));
+                echo render_template($templatePath . 'first_page.php', array('version' => Proxy::VERSION));
             }
 
             exit;
@@ -93,7 +117,8 @@ class DefaultController extends Controller
 
             // otherwise plugin_class better be loaded already through composer.json and match namespace exactly \\Vendor\\Plugin\\SuperPlugin
             $proxy->getEventDispatcher()->addSubscriber(
-                strstr("UrlFormPlugin", $plugin_class) 
+                strstr("UrlFormPlugin", $plugin_class)
+                || strstr("YoutubePlugin", $plugin_class)
                     ? new $plugin_class($templatePath)
                     : new $plugin_class()
             );
@@ -128,7 +153,7 @@ class DefaultController extends Controller
 
             } else {
 
-                echo render_template($templatePath . 'main.php', array(
+                echo render_template($templatePath . 'first_page.php', array(
                     'url' => $url,
                     'error_msg' => $ex->getMessage(),
                     'version' => Proxy::VERSION
@@ -140,11 +165,13 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/proxy/confirm")
+     * @Route("/proxy/confirm", name="proxy_confirm")
      * @Method({"POST"})
+     * @param Request $request
      */
     public function postFormDataAction(Request $request)
     {
+        $reqUrl = $request->request->get('url');
         $this->initConfig();
 
         if(!Config::get('app_key')){
@@ -162,9 +189,9 @@ class DefaultController extends Controller
             Config::set('encryption_key', md5(Config::get('app_key').session_id()));
         }
 
-        if(isset($_POST['url'])){
+        if(isset($reqUrl)){
 
-            $url = $_POST['url'];
+            $url = $reqUrl;
             $url = add_http($url);
 
             header("HTTP/1.1 302 Found");

@@ -10,4 +10,21 @@ namespace AppBundle\Repository;
  */
 class SitesRepository extends \Doctrine\ORM\EntityRepository
 {
+	/**
+	 * @return array
+	 */
+	public function getSitesNames()
+	{
+		$query = $this->createQueryBuilder('s')
+			->select('s.name')
+			->groupBy('s.name')
+			->getQuery();
+
+		$result = $query->getArrayResult();
+
+		$query->free();
+		unset($query);
+
+		return $result;
+	}
 }

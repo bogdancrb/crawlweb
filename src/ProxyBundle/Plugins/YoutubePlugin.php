@@ -37,9 +37,11 @@
 
 use Proxy\Plugin\AbstractPlugin;
 use Proxy\Event\ProxyEvent;
+use Proxy\Html;
 
-class UrlFormPlugin extends AbstractPlugin
-{
+class YoutubePlugin extends AbstractPlugin {
+
+	protected $url_pattern = 'youtube.com';
 	private $templatesPath;
 
 	public function __construct($templatesPath)
@@ -49,33 +51,40 @@ class UrlFormPlugin extends AbstractPlugin
 
 	public function onCompleted(ProxyEvent $event){
 
-		$request = $event['request'];
 		$response = $event['response'];
-		
-		$url = $request->getUri();
-		
-		// we attach url_form only if this is a html response
-		if(!is_html($response->headers->get('content-type'))){
-			return;
-		}
-		
-		// this path would be relative to index.php that included it?
-		$url_form = render_template($this->templatesPath . "url_form.php", array(
-			'url' => $url
-		));
-		$url_form_header = render_template($this->templatesPath . "url_form_header.php");
-		
+		$url = $event['request']->getUrl();
 		$output = $response->getContent();
-		
-		// does the html page contain <body> tag, if so insert our form right after <body> tag starts
-		$output = preg_replace('@<head.*?>@is', '$0'.PHP_EOL.$url_form_header, $output, 1, $countHead);
-		$output = preg_replace('@<body.*?>@is', '$0'.PHP_EOL.$url_form, $output, 1, $count);
-		
-		// <body> tag was not found, just put the form at the top of the page
-		if($count == 0){
-			$output = $url_form.$output;
+
+		// remove top banner that's full of ads
+		$output = Html::remove("#header", $output);
+
+		// do this on all youtube pages
+		$output = preg_replace('@masthead-positioner">@', 'masthead-positioner" style="position:static;">', $output, 1);
+
+		// replace future thumbnails with src=
+		$output = preg_replace('#<img[^>]*data-thumb=#s','<img alt="Thumbnail" src=', $output);
+
+		$youtube = new \YouTubeDownloader();
+		// cannot pass HTML directly because all the links in it are already "proxified"...
+		$links = $youtube->getDownloadLinks($url, "mp4 360, mp4");
+
+		if($links){
+
+			$url = current($links)['url'];
+
+			$player = vid_player($url, 640, 390, 'mp4');
+
+			// this div blocks our player controls
+			$output = Html::remove("#theater-background", $output);
+
+			// replace youtube player div block with our own
+			$output = Html::replace_inner("#player-api", $player, $output);
 		}
-		
+
+		$url_form_header = render_template($this->templatesPath . "url_form_header.php");
+
+		$output = $url_form_header.$output;
+
 		$response->setContent($output);
 	}
 }

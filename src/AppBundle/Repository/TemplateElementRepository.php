@@ -10,6 +10,10 @@ namespace AppBundle\Repository;
  */
 class TemplateElementRepository extends \Doctrine\ORM\EntityRepository
 {
+	/**
+	 * @param $templateId
+	 * @return array
+	 */
 	public function findByTemplateId($templateId)
 	{
 		$query = $this->createQueryBuilder('te')
@@ -26,6 +30,10 @@ class TemplateElementRepository extends \Doctrine\ORM\EntityRepository
 		return $result;
 	}
 
+	/**
+	 * @param $templateElementIds
+	 * @return array
+	 */
 	public function findByIds($templateElementIds)
 	{
 		$queryBuilder = $this->createQueryBuilder('te');
@@ -37,6 +45,24 @@ class TemplateElementRepository extends \Doctrine\ORM\EntityRepository
 			->getQuery();
 
 		$result = $query->getResult();
+
+		$query->free();
+		unset($query);
+
+		return $result;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getTemplateElementNames()
+	{
+		$query = $this->createQueryBuilder('te')
+			->select('te.name')
+			->groupBy('te.name')
+			->getQuery();
+
+		$result = $query->getArrayResult();
 
 		$query->free();
 		unset($query);

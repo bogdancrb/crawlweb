@@ -10,7 +10,10 @@ namespace AppBundle\Repository;
  */
 class CategoryRepository extends \Doctrine\ORM\EntityRepository
 {
-	public function retrievegetAllWebsitesContentData()
+	/**
+	 * @return array
+	 */
+	public function getAllWebsitesContentData()
 	{
 		$query = $this->createQueryBuilder('c')
 			->select('c', 'cs', 'csc', 'cst', 'cstt', 'cstta', 'csttac')
@@ -22,7 +25,23 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository
 			->innerJoin('cstta.content', 'csttac')
 			->getQuery();
 
-		var_dump($query->getSQL());
+		$result = $query->getArrayResult();
+
+		$query->free();
+		unset($query);
+
+		return $result;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getCategoryNames()
+	{
+		$query = $this->createQueryBuilder('c')
+			->select('c.name')
+			->groupBy('c.name')
+			->getQuery();
 
 		$result = $query->getArrayResult();
 

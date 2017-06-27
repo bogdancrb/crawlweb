@@ -15,8 +15,3 @@ app:
 content:
     type:     rest
     resource: ApiBundle\Controller\DefaultController
-
-proxy_rest:
-    type:     rest
-    resource: ProxyBundle\Controller\DefaultController
-    prefix:   /proxy

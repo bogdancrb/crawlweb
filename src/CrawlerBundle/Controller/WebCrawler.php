@@ -116,6 +116,8 @@ class WebCrawler
 								if (!empty($value->getAttribute('href')))
 								{
 									var_dump('HREF FOUND: ' . $value->getAttribute('href'));
+
+									// todo check if href is already saved in content table
 								}
 							}
 						}

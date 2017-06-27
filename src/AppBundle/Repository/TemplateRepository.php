@@ -10,4 +10,21 @@ namespace AppBundle\Repository;
  */
 class TemplateRepository extends \Doctrine\ORM\EntityRepository
 {
+	/**
+	 * @return array
+	 */
+	public function getTemplateNames()
+	{
+		$query = $this->createQueryBuilder('t')
+			->select('t.name')
+			->groupBy('t.name')
+			->getQuery();
+
+		$result = $query->getArrayResult();
+
+		$query->free();
+		unset($query);
+
+		return $result;
+	}
 }
