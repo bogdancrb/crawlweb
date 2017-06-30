@@ -15,8 +15,8 @@ parameters:
     - 'DailyMotion'
     - 'Twitter'
   proxy.curl:
-    CURLOPT_PROXY: ''
-    CURLOPT_CONNECTTIMEOUT: 0
+#    CURLOPT_PROXY: 'http://212.237.33.40:80'
+#    CURLOPT_CONNECTTIMEOUT: 0
   proxy.replace_title: ''
   proxy.error_redirect: ''
   proxy.index_redirect: ''

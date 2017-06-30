@@ -69,4 +69,70 @@ class TemplateElementRepository extends \Doctrine\ORM\EntityRepository
 
 		return $result;
 	}
+	
+	public function getTemplateElementsData($args = [])
+	{
+		// Extract all values from array and created variables
+		extract($args, EXTR_SKIP);
+
+		$query = $this->createQueryBuilder('te')
+			->select('te.id', 'tetsc.name as siteCategory', 'tets.name as siteName', 'tet.name as categoryName', 'te.name as tagName')
+			->innerJoin('te.template', 'tet')
+			->innerJoin('tet.sites', 'tets')
+			->innerJoin('tets.category', 'tetsc')
+			->groupBy('tets.name', 'tet.name', 'te.name');
+
+		if (!empty($siteName))
+		{
+			$query->andWhere("replace(tets.name, ' ', '') LIKE replace(:siteName, ' ', '')")
+				->setParameter('siteName', '%'. $siteName .'%');
+		}
+
+		if (!empty($categoryName))
+		{
+			$query->andWhere("replace(tet.name, ' ', '') LIKE replace(:categoryName, ' ', '')")
+				->setParameter('categoryName', '%'. $categoryName .'%');
+		}
+
+		if (!empty($siteCategoryName))
+		{
+			$query->andWhere("replace(tetsc.name, ' ', '') LIKE replace(:siteCategoryName, ' ', '')")
+				->setParameter('siteCategoryName', '%'. $siteCategoryName .'%');
+		}
+
+		$query = $query->getQuery();
+
+		$result = $query->getArrayResult();
+		$retResult = [];
+
+		// Remove the id from the result
+		array_walk($result, function($elem, $elemKey) use (&$result){
+			array_walk($elem, function($value, $key) use(&$result, &$elem, $elemKey) {
+				// If the key is id
+				if ($key == 'id')
+				{
+					// Remove it from the result
+					unset($result[$elemKey][$key]);
+				}
+			});
+		});
+
+		foreach ($result as $elem)
+		{
+			$siteCategory = $elem['siteCategory'];
+			$siteName = $elem['siteName'];
+			$categoryName = $elem['categoryName'];
+			$tagName = $elem['tagName'];
+
+			$retResult['siteCategory'][$siteCategory]
+					['siteName'][$siteName]
+					['categoryName'][$categoryName]
+					['tags'][] = $tagName;
+		}
+
+		$query->free();
+		unset($query);
+
+		return $retResult;
+	}
 }

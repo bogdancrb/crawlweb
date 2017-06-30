@@ -229,5 +229,34 @@ class ProxyController extends Controller
         {
             Config::set('plugins', $this->container->getParameter('proxy.plugins'));
         }
+        
+        if (!empty($this->container->getParameter('proxy.curl')))
+        {
+            $proxyOptions = $this->container->getParameter('proxy.curl');
+            $resultProxyOptions = [];
+
+            foreach ($proxyOptions as $key => $value)
+            {
+                switch ($key)
+                {
+                    case 'CURLOPT_PROXY':
+                        $key = CURLOPT_PROXY;
+                        break;
+                    case 'CURLOPT_PORT':
+                        $key = CURLOPT_PORT;
+                        break;
+                    case 'CURLOPT_HTTPPROXYTUNNEL':
+                        $key = CURLOPT_HTTPPROXYTUNNEL;
+                        break;
+                    case 'CURLOPT_CONNECTTIMEOUT':
+                        $key = CURLOPT_CONNECTTIMEOUT;
+                        break;
+                }
+
+                $resultProxyOptions[$key] = $value;
+            }
+
+            Config::set('curl', $resultProxyOptions);
+        }
     }
 }

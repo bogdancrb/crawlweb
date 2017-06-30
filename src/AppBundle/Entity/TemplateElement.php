@@ -7,6 +7,9 @@ namespace AppBundle\Entity;
  */
 class TemplateElement
 {
+    const IGNORE_ATTRIBUTE_VALUE_YES = 1;
+    const IGNORE_ATTRIBUTE_VALUE_NO = 0;
+
     /**
      * @var integer
      */
@@ -21,6 +24,11 @@ class TemplateElement
      * @var string
      */
     private $cssPath;
+
+    /**
+     * @var integer
+     */
+    private $ignoreAttributeValue = '0';
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -96,6 +104,30 @@ class TemplateElement
     public function getCssPath()
     {
         return $this->cssPath;
+    }
+
+    /**
+     * Set ignoreAttributeValue
+     *
+     * @param integer $ignoreAttributeValue
+     *
+     * @return TemplateElement
+     */
+    public function setIgnoreAttributeValue($ignoreAttributeValue)
+    {
+        $this->ignoreAttributeValue = $ignoreAttributeValue;
+
+        return $this;
+    }
+
+    /**
+     * Get ignoreAttributeValue
+     *
+     * @return integer
+     */
+    public function getIgnoreAttributeValue()
+    {
+        return $this->ignoreAttributeValue;
     }
 
     /**

@@ -1,2 +1,45 @@
 parameters:
-  crawler.time_interval: 5 # value in hours
+  crawler.time_interval: 256 # value in hours
+  crawler.sleep_seconds: 900 # 15 minutes
+  crawler.max_proxy_ip_requests_usage: 5 # use each proxy ip for maximum 5 requests
+  crawler.proxy_ips:
+    -
+      Agent: 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:40.0) Gecko/20100101 Firefox/40.0'
+      IP: 31.3.145.189 # germany
+    -
+      Agent: 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:33.0) Gecko/20100101 Firefox/33.0'
+      IP: 118.160.215.100 # taiwan
+    -
+      Agent: 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36'
+      IP: 213.233.57.135 # italy
+    -
+      Agent: 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.71 Safari/537.36'
+      IP: 61.5.207.102 # afghanistan
+    -
+      Agent: 'Mozilla/5.0 (Windows NT 5.2; rv:11.0) Gecko/20100101 Firefox/26.0'
+      IP: 94.130.17.106 # ukraine
+    -
+      Agent: 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:30.0) Gecko/20100101 Firefox/33.0 Brady (Seton; Germany; Egelsbach)'
+      IP: 193.50.49.9 # france
+    -
+      Agent: 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.99 Safari/533.4'
+      IP: 212.220.30.10 # russia
+    -
+      Agent: 'Mozilla/5.0 (Windows NT 6.2; Win64; x64; rv:34.0) Gecko/20100101 Firefox/34.0'
+      IP: 46.218.73.162 # france
+  crawler.best_proxy_ips:
+    -
+      Agent: 'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0'
+      IP: 62.4.16.31 # italy
+    -
+      Agent: 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:32.0) Gecko/20100101 Firefox/32.0'
+      IP: 195.123.209.104 # ukraine
+    -
+      Agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:32.0) Gecko/20100101 Firefox/32.0'
+      IP: 81.49.136.91 # france
+    -
+      Agent: 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36,gzip(gfe)'
+      IP: 62.4.16.31 # france
+    -
+      Agent: 'Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
+      IP: 178.239.177.210 # italy

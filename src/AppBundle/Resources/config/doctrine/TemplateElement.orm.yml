@@ -24,10 +24,17 @@ AppBundle\Entity\TemplateElement:
         cssPath:
             type: text
             nullable: false
-            length: 255
+            length: 65535
             options:
                 fixed: false
             column: css_path
+        ignoreAttributeValue:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+                default: '0'
+            column: ignore_attribute_value
     manyToOne:
         template:
             targetEntity: Template

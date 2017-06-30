@@ -7,6 +7,8 @@ use AppBundle\Entity\Content;
 use AppBundle\Entity\Template;
 use AppBundle\Entity\TemplateElement;
 use CrawlerBundle\ServiceContainer;
+use DateTime;
+use Doctrine\Common\Persistence\AbstractManagerRegistry;
 use Doctrine\ORM\EntityManager;
 use Goutte\Client;
 use Symfony\Component\DependencyInjection\Container;
@@ -22,6 +24,8 @@ class WebCrawler
 
 	/** @var  EntityManager */
 	private $entityManager;
+	/** @var AbstractManagerRegistry  */
+	private $doctrine;
 
 	/** @var Container  */
 	private $container;
@@ -37,10 +41,11 @@ class WebCrawler
 		$this->client->getClient()->setDefaultOption('config/curl/'.CURLOPT_CONNECTTIMEOUT, 0);
 		$this->client->getClient()->setDefaultOption('config/curl/'.CURLOPT_SSL_VERIFYHOST, 0);
 		$this->client->getClient()->setDefaultOption('config/curl/'.CURLOPT_SSL_VERIFYPEER, 0);
-		$this->client->setHeader('User-Agent','Google Bot: Googlebot/2.1');
+		$this->client->setHeader('User-Agent','Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)');
 
 		$this->container = ServiceContainer::getContainer();
-		$this->entityManager = ServiceContainer::get('doctrine')->getEntityManager();
+		$this->doctrine = ServiceContainer::get('doctrine');
+		$this->entityManager = $this->doctrine->getEntityManager();
 		$this->currentTemplateElementIds = [];
 	}
 
@@ -49,106 +54,73 @@ class WebCrawler
 	 */
 	public function executeCrawler()
 	{
-		$crawlContent = $this->entityManager->getRepository('AppBundle:Content')->retrieveContent(
-			$this->container->getParameter('crawler.time_interval')
-		);
+		$sleepSecondsConfig = $this->container->getParameter('crawler.sleep_seconds');
+		$timeIntervalConfig = $this->container->getParameter('crawler.time_interval');
+		$maxProxyIpRequestsUsage = $this->container->getParameter('crawler.max_proxy_ip_requests_usage');
+		$proxyIps = $this->container->getParameter('crawler.proxy_ips');
+
+		$crawlContent = $this->doctrine
+			->getRepository('AppBundle:Content')
+			->retrieveContent($timeIntervalConfig);
 
 		/** @var Content $content */
 		foreach ($crawlContent as $content)
 		{
-			var_dump("","","","");
+			$proxyIp = $this->getProxyIpAndAgent($proxyIps);
 
-			$foundTemplate = false;
-			$outdatedTemplate = false;
+			var_dump($proxyIp);
 
-			var_dump($content->getUrl());
-			$crawler = $this->client->request('GET', $content->getUrl());
+			$this->client->getClient()->setDefaultOption('config/curl/'.CURLOPT_PROXY, 'http://' . $proxyIp['IP'] . ':80');
+			//$this->client->setHeader('User-Agent', $proxyIp['Agent']);
 
-			if ($content->getAttributes()->count() > 0)
+			$connection = $this->entityManager->getConnection();
+			$connection->beginTransaction();
+
+			try
 			{
-				$templateElementIds = [];
-				$templateId = 0;
+				$foundTemplate = false;
+				$outdatedTemplate = false;
+				$possibleOutdatedTemplate = false;
 
-				/** @var Attributes $attribute */
-				foreach ($content->getAttributes() as $attribute)
+				var_dump($content->getUrl());
+
+				$crawler = $this->client->request('GET', $content->getUrl());
+
+				if ($content->getAttributes()->count() > 0)
 				{
-					$templateId = $attribute->getTemplateElement()->getTemplate()->getId();
+					$attributes = $content->getAttributes();
 
-					$templateElementIds[] = $attribute->getTemplateElement()->getId();
-
-					var_dump('[OLD DATA]: ' . $attribute->getTemplateElement()->getName()
-						. ': ' . strip_tags(fread($attribute->getValue(), 10000)));
-					var_dump($attribute->getTemplateElement()->getCssPath());
-
-					$extractedValue = $crawler->filter($attribute->getTemplateElement()->getCssPath())->text();
-
-					var_dump('[NEW DATA]: ' . $attribute->getTemplateElement()->getName() . ': ' . trim($extractedValue));
-
-					var_dump("######################################");
-				}
-
-				$currentTemplateElementIds = $this->entityManager->getRepository('AppBundle:TemplateElement')->findByTemplateId($templateId);
-
-				array_walk($currentTemplateElementIds, function($elem){
-					$this->currentTemplateElementIds[] = $elem['id'];
-				});
-
-				$newTemplateElementIds = array_diff($this->currentTemplateElementIds, $templateElementIds);
-
-				if (!empty($newTemplateElementIds))
-				{
-					$newTemplateElements = $this->entityManager->getRepository('AppBundle:TemplateElement')->findByIds($newTemplateElementIds);
-
-					/** @var TemplateElement $templateElement */
-					foreach ($newTemplateElements as $templateElement)
+					/** @var Attributes $attributes */
+					foreach ($attributes as $attribute)
 					{
-						$extractedValues = $crawler->filter($templateElement->getCssPath());
+						var_dump('[OLD DATA]: ' . $attribute->getTemplateElement()->getName()
+							. ': ' . strip_tags(fread($attribute->getValue(), 1000000)));
 
-						if (count($extractedValues) > 0)
-						{
-							/** @var \DOMElement $value */
-							foreach ($extractedValues as $value)
-							{
-								$foundTemplate = true;
-
-								var_dump('[NEW DATA]: ' . $templateElement->getName() . ': ' . trim($value->nodeValue));
-
-								if (!empty($value->getAttribute('href')))
-								{
-									var_dump('HREF FOUND: ' . $value->getAttribute('href'));
-
-									// todo check if href is already saved in content table
-								}
-							}
-						}
-					}
-
-					if (!$foundTemplate)
-					{
-						// TODO log error and mail
-						// TODO mark content as failed in DB
-
-						var_dump('[1] no template found');
+						$this->entityManager->remove($attribute);
 					}
 				}
-			}
-			else
-			{
+
 				$templates = $content->getSites()->getTemplate();
 
 				/** @var Template $template */
 				foreach ($templates as $template)
 				{
 					$outdatedTemplate = false;
-					
+
 					$templateElements = $template->getTemplateElement();
 
 					var_dump($template->getName());
+
+					$attribute = null;
+
+					$countSuccessfullyFetchedElements = 0;
 
 					/** @var TemplateElement $templateElement */
 					foreach ($templateElements as $templateElement)
 					{
 						$extractedValues = $crawler->filter($templateElement->getCssPath());
+
+						$countSuccessfullyFetchedElements += count($extractedValues);
 
 						if (count($extractedValues) > 0)
 						{
@@ -157,26 +129,68 @@ class WebCrawler
 							{
 								$foundTemplate = true;
 
-								if (!empty($value->nodeValue))
+								$attributeValue = trim($value->nodeValue);
+								$url = strstr($value->getAttribute('href'), 'javascript') == false
+									? $value->getAttribute('href')
+									: null;
+
+								if (!empty($attributeValue) && !$templateElement->getIgnoreAttributeValue())
 								{
-									var_dump('[NEW DATA]: ' . $templateElement->getName() . ': ' . trim($value->nodeValue));
+									var_dump('[NEW DATA]: ' . $templateElement->getName() . ': ' . $attributeValue);
+
+									$attribute = new Attributes();
+									$attribute->setValue($attributeValue)
+										->setContent($content)
+										->setTemplateElement($templateElement);
+									$this->entityManager->persist($attribute);
 								}
 
-								if (!empty($value->getAttribute('href')))
+								if (!empty($url))
 								{
-									var_dump('HREF FOUND: ' . $value->getAttribute('href'));
+									if (strstr($url, 'http://') == false)
+									{
+										$url = $content->getSites()->getMainUrl() . $url;
+									}
+
+									var_dump('HREF FOUND: ' . $url);
+
+									/** @var Content $contentUrlFound */
+									$contentUrlFound = $this->doctrine
+										->getRepository('AppBundle:Content')
+										->findOneByUrl($url);
+
+									if (count($contentUrlFound) <= 0)
+									{
+										$newContent = new Content();
+										$newContent->setUrl($url)
+											->setSites($content->getSites());
+										$this->entityManager->persist($newContent);
+									}
 								}
 							}
 						}
 						else
 						{
-							$outdatedTemplate = true;
+							if ($countSuccessfullyFetchedElements > 2)
+							{
+								$possibleOutdatedTemplate = true;
+								$outdatedTemplate = false;
+							}
+							else
+							{
+								$outdatedTemplate = true;
+							}
 						}
 					}
 
 					if ($foundTemplate)
 					{
 						break;
+					}
+					else if (isset($attribute))
+					{
+						$this->entityManager->remove($attribute);
+						$attribute = null;
 					}
 				}
 
@@ -185,17 +199,51 @@ class WebCrawler
 					// TODO log error and mail
 					// TODO mark content as failed in DB
 
-					var_dump('[2] no template found');
+					throw new \Exception('no template found');
 				}
 				else if ($outdatedTemplate)
 				{
 					// TODO log error and mail
 					// TODO mark content as outdated in DB
-					var_dump('template outdated');
+					throw new \Exception('template outdated, please update');
 				}
+				else if ($possibleOutdatedTemplate)
+				{
+					var_dump('template is possible to be outdated, please check the template settings');
+				}
+
+				$lastAccessedDate = new DateTime();
+				$lastAccessedDate->format("Y-m-d H:i:s");
+
+				$content->setLastAccessed($lastAccessedDate);
+
+				$this->entityManager->persist($content);
+				$this->entityManager->flush();
+
+				$connection->commit();
+			}
+			catch (\Exception $e)
+			{
+				var_dump($e->getMessage());
+
+				$connection->rollBack();
 			}
 
-			//sleep(5); // add delay
+			if (!empty($sleepSecondsConfig))
+			{
+				var_dump('Process halted for '. $sleepSecondsConfig/60 . ' minutes');
+
+				// Halt the crawling process, so that we do not get banned from the website :)
+				sleep($sleepSecondsConfig);
+			}
 		}
+	}
+
+	private function getProxyIpAndAgent($proxyIps = [])
+	{
+		srand();
+		$randIndex = rand(1, sizeof($proxyIps) - 1);
+
+		return $proxyIps[$randIndex];
 	}
 }

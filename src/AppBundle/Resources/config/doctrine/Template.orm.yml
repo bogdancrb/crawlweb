@@ -21,6 +21,10 @@ AppBundle\Entity\Template:
             length: 45
             options:
                 fixed: false
+        outdatedLastNotified:
+            type: datetime
+            nullable: true
+            column: outdated_last_notified
     manyToOne:
         sites:
             targetEntity: Sites

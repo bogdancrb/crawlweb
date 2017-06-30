@@ -12,6 +12,6 @@ app:
     resource: '@AppBundle/Controller/'
     type: annotation
 
-content:
-    type:     rest
-    resource: ApiBundle\Controller\DefaultController
+api:
+    type:     annotation
+    resource: '@ApiBundle/Controller/Rest/'

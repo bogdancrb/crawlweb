@@ -18,6 +18,11 @@ class Template
     private $name;
 
     /**
+     * @var \DateTime
+     */
+    private $outdatedLastNotified;
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $templateElement;
@@ -67,6 +72,30 @@ class Template
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set outdatedLastNotified
+     *
+     * @param \DateTime $outdatedLastNotified
+     *
+     * @return Template
+     */
+    public function setOutdatedLastNotified($outdatedLastNotified)
+    {
+        $this->outdatedLastNotified = $outdatedLastNotified;
+
+        return $this;
+    }
+
+    /**
+     * Get outdatedLastNotified
+     *
+     * @return \DateTime
+     */
+    public function getOutdatedLastNotified()
+    {
+        return $this->outdatedLastNotified;
     }
 
     /**
