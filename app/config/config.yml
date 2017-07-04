@@ -15,6 +15,7 @@ parameters:
 framework:
     #esi: ~
     #translator: { fallbacks: ['%locale%'] }
+    translator: ~
     secret: '%secret%'
     router:
         resource: '%kernel.root_dir%/config/routing.yml'
@@ -40,7 +41,7 @@ framework:
 
 # Twig Configuration
 twig:
-    debug: '%kernel.debug%'
+    debug: true
     strict_variables: '%kernel.debug%'
 
 # Doctrine Configuration
@@ -74,8 +75,33 @@ doctrine:
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport: '%mailer_transport%'
-    host: '%mailer_host%'
-    username: '%mailer_user%'
-    password: '%mailer_password%'
-    spool: { type: memory }
+    transport: smtp
+    auth_mode: login
+    host: mail.crawlweb.info
+    port: 25
+    username: admin@crawlweb.info
+    password: !Crawlweb
+    spool:
+        type: file
+        path: '%kernel.cache_dir%/swiftmailer/spool'
+    delivery_addresses: [admin@crawlweb.info]
+    logging: true
+
+fos_user:
+    db_driver: orm # other valid values are 'mongodb' and 'couchdb'
+    firewall_name: main
+    user_class: AppBundle\Entity\User
+    from_email:
+        address: "admin@crawlweb.info"
+        sender_name: "Crawlweb.info"
+
+fos_rest:
+    param_fetcher_listener: true
+
+assetic:
+    debug:          '%kernel.debug%'
+    use_controller: '%kernel.debug%'
+    filters:
+        cssrewrite: ~
+
+nelmio_api_doc: ~

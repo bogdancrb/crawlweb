@@ -1,0 +1,117 @@
+{% extends 'AvanzuAdminThemeBundle:layout:base-layout.html.twig' %}
+
+{% block title %}CrawlWeb.info Admin{% endblock %}
+{% block page_title %}Overview{% endblock %}
+
+{% block page_content %}
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>134</h3>
+
+                    <p>New Content</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-stats-bars"></i>
+                </div>
+                <a href="admin/content" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+
+            </div>
+        </div>
+        <!-- ./col -->
+
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3>11 days</h3>
+
+                    <p>Crawl interval</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-calendar"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+
+            </div>
+        </div><!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3>5</h3>
+
+                    <p>Users</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+                <a href="admin/users" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>4</h3>
+
+                    <p>Sites</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+                <a href="admin/sites" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+    </div>
+    <!-- /.row -->
+    <!-- Main row -->
+    <div class="row">
+        <!-- Left col -->
+        <section class="col-lg-7 connectedSortable ui-sortable">
+            <!-- Custom tabs (Charts with tabs)-->
+            <div style="cursor: move;" class="nav-tabs-custom">
+                <!-- Tabs within a box -->
+                <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                    <li class="active"><a aria-expanded="true" href="#revenue-chart" data-toggle="tab">Graph</a></li>
+
+                    <li class="pull-left header"><i class="fa fa-inbox"></i>Crawler requests executed</li>
+                </ul>
+                <div class="tab-content no-padding">
+                    <!-- Morris chart - Sales -->
+                    <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;"><svg style="overflow: hidden; position: relative; top: -0.633331px;" xmlns="http://www.w3.org/2000/svg" width="622.75" version="1.1" height="300"><desc>Created with Raphaël 2.1.0</desc><defs></defs><text font-weight="normal" font-family="sans-serif" font-size="12px" fill="#888888" stroke="none" font="10px &quot;Arial&quot;" text-anchor="end" y="261" x="53.5" style="text-anchor: end; font: 12px sans-serif;"><tspan dy="4">0</tspan></text><path stroke-width="0.5" d="M66,261H597.75" stroke="#aaaaaa" fill="none" style=""></path><text font-weight="normal" font-family="sans-serif" font-size="12px" fill="#888888" stroke="none" font="10px &quot;Arial&quot;" text-anchor="end" y="202" x="53.5" style="text-anchor: end; font: 12px sans-serif;"><tspan dy="4">100</tspan></text><path stroke-width="0.5" d="M66,202H597.75" stroke="#aaaaaa" fill="none" style=""></path><text font-weight="normal" font-family="sans-serif" font-size="12px" fill="#888888" stroke="none" font="10px &quot;Arial&quot;" text-anchor="end" y="143" x="53.5" style="text-anchor: end; font: 12px sans-serif;"><tspan dy="4">200</tspan></text><path stroke-width="0.5" d="M66,143H597.75" stroke="#aaaaaa" fill="none" style=""></path><text font-weight="normal" font-family="sans-serif" font-size="12px" fill="#888888" stroke="none" font="10px &quot;Arial&quot;" text-anchor="end" y="84.00000000000003" x="53.5" style="text-anchor: end; font: 12px sans-serif;"><tspan dy="4.000000000000028">300</tspan></text><path stroke-width="0.5" d="M66,84.00000000000003H597.75" stroke="#aaaaaa" fill="none" style=""></path><text font-weight="normal" font-family="sans-serif" font-size="12px" fill="#888888" stroke="none" font="10px &quot;Arial&quot;" text-anchor="end" y="25.00000000000003" x="53.5" style="text-anchor: end; font: 12px sans-serif;"><tspan dy="4.000000000000028">400</tspan></text><path stroke-width="0.5" d="M66,25.00000000000003H597.75" stroke="#aaaaaa" fill="none" style=""></path><text x="300.7202166978887" y="273.5" transform="matrix(1,0,0,1,0,7)" font-weight="normal" font-family="sans-serif" font-size="12px" fill="#888888" stroke="none" font="10px &quot;Arial&quot;" text-anchor="middle" style="text-anchor: middle; font: 12px sans-serif;"><tspan dy="4">2017</tspan></text><path fill-opacity="1" d="M66,219.05493333333334C80.85459280542757,219.56626666666668,110.56377841628272,222.6231049981125,125.41837122171029,221.10026666666667C140.27969469900256,219.57673833144582,170.00234165358717,209.1350666666667,184.86366513087944,206.86946666666668C199.57018315528327,204.6274666666667,228.98321920409091,204.88256480506598,243.68973722849475,203.06986666666666C258.38952458103387,201.2579981383993,287.7890992861121,194.91349669779092,302.4888866386512,192.3712C317.34347944407875,189.80213003112425,347.0526650549339,182.51724094375237,361.9072578603615,182.6244C376.76858133765376,182.73160761041905,406.49122829223836,204.17807818499128,421.35255176953063,193.22866666666667C436.05906979393444,182.3933115183246,465.47210584274217,101.94542370540854,480.178623867146,95.48533333333336C494.71687509493194,89.09915703874188,523.7933775505038,135.13648756583467,538.3316287782898,141.8436C553.1862215837173,148.69665423250134,582.8954071945725,147.7554,597.75,149.726L597.75,261L66,261Z" stroke="none" fill="#74a5c1" style="fill-opacity: 1;"></path><path stroke-width="3" d="M66,219.05493333333334C80.85459280542757,219.56626666666668,110.56377841628272,222.6231049981125,125.41837122171029,221.10026666666667C140.27969469900256,219.57673833144582,170.00234165358717,209.1350666666667,184.86366513087944,206.86946666666668C199.57018315528327,204.6274666666667,228.98321920409091,204.88256480506598,243.68973722849475,203.06986666666666C258.38952458103387,201.2579981383993,287.7890992861121,194.91349669779092,302.4888866386512,192.3712C317.34347944407875,189.80213003112425,347.0526650549339,182.51724094375237,361.9072578603615,182.6244C376.76858133765376,182.73160761041905,406.49122829223836,204.17807818499128,421.35255176953063,193.22866666666667C436.05906979393444,182.3933115183246,465.47210584274217,101.94542370540854,480.178623867146,95.48533333333336C494.71687509493194,89.09915703874188,523.7933775505038,135.13648756583467,538.3316287782898,141.8436C553.1862215837173,148.69665423250134,582.8954071945725,147.7554,597.75,149.726" stroke="#3c8dbc" fill="none" style=""></path><circle stroke-width="1" style="" stroke="#ffffff" fill="#3c8dbc" r="4" cy="219.05493333333334" cx="66"></circle><circle stroke-width="1" style="" stroke="#ffffff" fill="#3c8dbc" r="4" cy="221.10026666666667" cx="125.41837122171029"></circle><circle stroke-width="1" style="" stroke="#ffffff" fill="#3c8dbc" r="4" cy="206.86946666666668" cx="184.86366513087944"></circle><circle stroke-width="1" style="" stroke="#ffffff" fill="#3c8dbc" r="4" cy="203.06986666666666" cx="243.68973722849475"></circle><circle stroke-width="1" style="" stroke="#ffffff" fill="#3c8dbc" r="4" cy="192.3712" cx="302.4888866386512"></circle><circle stroke-width="1" style="" stroke="#ffffff" fill="#3c8dbc" r="4" cy="182.6244" cx="361.9072578603615"></circle><circle stroke-width="1" style="" stroke="#ffffff" fill="#3c8dbc" r="4" cy="193.22866666666667" cx="421.35255176953063"></circle><circle cy="95.48533333333336" stroke-width="1" style="" stroke="#ffffff" fill="#3c8dbc" r="4" cx="480.178623867146"></circle><circle stroke-width="1" style="" stroke="#ffffff" fill="#3c8dbc" r="4" cy="141.8436" cx="538.3316287782898"></circle><circle stroke-width="1" style="" stroke="#ffffff" fill="#3c8dbc" r="4" cy="149.726" cx="597.75"></circle><path fill-opacity="1" d="M66,240.02746666666667C80.85459280542757,239.8072,110.56377841628272,241.35446642506605,125.41837122171029,239.1464C140.27969469900256,236.93733309173274,170.00234165358717,223.3365417102967,184.86366513087944,222.35893333333334C199.57018315528327,221.39150837696334,228.98321920409091,233.23306051728085,243.68973722849475,231.36626666666666C258.38952458103387,229.5003271839475,287.7890992861121,209.28948157595082,302.4888866386512,207.428C317.34347944407875,205.54691490928414,347.0526650549339,214.43960989052474,361.9072578603615,216.39600000000002C376.76858133765376,218.3532765571914,406.49122829223836,232.37735986038396,421.35255176953063,223.08266666666668C436.05906979393444,213.8847931937173,465.47210584274217,148.22814457230533,480.178623867146,142.42573333333334C494.71687509493194,136.689711238972,523.7933775505038,170.46889944279064,538.3316287782898,176.92893333333336C553.1862215837173,183.52953277612397,582.8954071945725,190.23343333333335,597.75,194.66826666666668L597.75,261L66,261Z" stroke="none" fill="#eaf2f5" style="fill-opacity: 1;"></path><path stroke-width="3" d="M66,240.02746666666667C80.85459280542757,239.8072,110.56377841628272,241.35446642506605,125.41837122171029,239.1464C140.27969469900256,236.93733309173274,170.00234165358717,223.3365417102967,184.86366513087944,222.35893333333334C199.57018315528327,221.39150837696334,228.98321920409091,233.23306051728085,243.68973722849475,231.36626666666666C258.38952458103387,229.5003271839475,287.7890992861121,209.28948157595082,302.4888866386512,207.428C317.34347944407875,205.54691490928414,347.0526650549339,214.43960989052474,361.9072578603615,216.39600000000002C376.76858133765376,218.3532765571914,406.49122829223836,232.37735986038396,421.35255176953063,223.08266666666668C436.05906979393444,213.8847931937173,465.47210584274217,148.22814457230533,480.178623867146,142.42573333333334C494.71687509493194,136.689711238972,523.7933775505038,170.46889944279064,538.3316287782898,176.92893333333336C553.1862215837173,183.52953277612397,582.8954071945725,190.23343333333335,597.75,194.66826666666668" stroke="#a0d0e0" fill="none" style=""></path><circle stroke-width="1" style="" stroke="#ffffff" fill="#a0d0e0" r="4" cy="240.02746666666667" cx="66"></circle><circle stroke-width="1" style="" stroke="#ffffff" fill="#a0d0e0" r="4" cy="239.1464" cx="125.41837122171029"></circle><circle stroke-width="1" style="" stroke="#ffffff" fill="#a0d0e0" r="4" cy="222.35893333333334" cx="184.86366513087944"></circle><circle stroke-width="1" style="" stroke="#ffffff" fill="#a0d0e0" r="4" cy="231.36626666666666" cx="243.68973722849475"></circle><circle stroke-width="1" style="" stroke="#ffffff" fill="#a0d0e0" r="4" cy="207.428" cx="302.4888866386512"></circle><circle stroke-width="1" style="" stroke="#ffffff" fill="#a0d0e0" r="4" cy="216.39600000000002" cx="361.9072578603615"></circle><circle stroke-width="1" style="" stroke="#ffffff" fill="#a0d0e0" r="4" cy="223.08266666666668" cx="421.35255176953063"></circle><circle stroke-width="1" style="" stroke="#ffffff" fill="#a0d0e0" r="4" cy="142.42573333333334" cx="480.178623867146"></circle><circle stroke-width="1" style="" stroke="#ffffff" fill="#a0d0e0" r="4" cy="176.92893333333336" cx="538.3316287782898"></circle><circle stroke-width="1" style="" stroke="#ffffff" fill="#a0d0e0" r="4" cy="194.66826666666668" cx="597.75"></circle></svg><div style="left: 256.039px; top: 111px; display: none;" class="morris-hover morris-default-style"><div class="morris-hover-row-label">2012 Q1</div><div class="morris-hover-point" style="color: #a0d0e0">
+                                Item 1:
+                                6,810
+                            </div><div class="morris-hover-point" style="color: #3c8dbc">
+                                Item 2:
+                                1,914
+                            </div></div></div>
+                    <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;"><svg style="overflow: hidden; position: relative;" xmlns="http://www.w3.org/2000/svg" width="652.75" version="1.1" height="300"><desc>Created with Raphaël 2.1.0</desc><defs></defs><path opacity="0" stroke-width="2" d="M326.375,243.33333333333331A93.33333333333333,93.33333333333333,0,0,0,414.6027551949771,180.44625304313007" stroke="#3c8dbc" fill="none" style="opacity: 0;"></path><path stroke-width="3" d="M326.375,246.33333333333331A96.33333333333333,96.33333333333333,0,0,0,417.43864732624417,181.4248826052307L453.9901459070204,194.03833029452744A135,135,0,0,1,326.375,285Z" stroke="#ffffff" fill="#3c8dbc" style=""></path><path opacity="1" stroke-width="2" d="M414.6027551949771,180.44625304313007A93.33333333333333,93.33333333333333,0,0,0,242.65984627831412,108.73398312817662" stroke="#f56954" fill="none" style="opacity: 1;"></path><path stroke-width="3" d="M417.43864732624417,181.4248826052307A96.33333333333333,96.33333333333333,0,0,0,239.96900205154566,107.40757544301087L200.80226941747117,88.10097469226493A140,140,0,0,1,458.7166327924656,195.6693795646951Z" stroke="#ffffff" fill="#f56954" style=""></path><path opacity="0" stroke-width="2" d="M242.65984627831412,108.73398312817662A93.33333333333333,93.33333333333333,0,0,0,326.34567846904883,243.333328727518" stroke="#00a65a" fill="none" style="opacity: 0;"></path><path stroke-width="3" d="M239.96900205154566,107.40757544301087A96.33333333333333,96.33333333333333,0,0,0,326.34473599126824,246.3333285794739L326.3325884998742,284.9999933380171A135,135,0,0,1,205.2870097954186,90.31165416754118Z" stroke="#ffffff" fill="#00a65a" style=""></path><text transform="matrix(1,0,0,1,0,0)" font-weight="800" font-size="15px" fill="#000000" stroke="none" font="10px &quot;Arial&quot;" text-anchor="middle" y="140" x="326.375" style="text-anchor: middle; font: 800 15px &quot;Arial&quot;;"><tspan>In-Store Sales</tspan></text><text transform="matrix(1,0,0,1,0,0)" font-size="14px" fill="#000000" stroke="none" font="10px &quot;Arial&quot;" text-anchor="middle" y="160" x="326.375" style="text-anchor: middle; font: 14px &quot;Arial&quot;;"><tspan>30</tspan></text></svg></div>
+                </div>
+            </div>
+            <!-- /.nav-tabs-custom -->
+
+            <!-- Chat box -->
+
+            <!-- /.box (chat box) -->
+
+            <!-- TO DO List -->
+
+            <!-- /.box -->
+
+            <!-- quick email widget -->
+
+
+        </section>
+        <!-- /.Left col -->
+        <!-- right col (We are only adding the ID to make the widgets sortable)-->
+
+
+    </div>
+    <!-- /.row (main row) -->
+{% endblock %}

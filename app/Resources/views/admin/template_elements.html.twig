@@ -1,0 +1,99 @@
+{% extends 'AvanzuAdminThemeBundle:layout:base-layout.html.twig' %}
+
+{% block title %}CrawlWeb.info Admin - Template elements{% endblock %}
+{% block page_title %}Template elements{% endblock %}
+
+{% block page_content %}
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Template elements</h3>
+
+                    <div class="box-tools">
+                        <div class="input-group input-group-sm" style="width: 150px;">
+                            <input name="table_search" class="form-control pull-right" placeholder="Search" type="text">
+
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <tbody>
+                        <tr>
+                            <th>Name</th>
+                            <th>Site name</th>
+                            <th>Template name</th>
+                            <th>CSS Path</th>
+                            <th>Extract only urls</th>
+                        </tr>
+                        <tr>
+                            <td>Title</td>
+                            <td>PC Garage</td>
+                            <td>Product</td>
+                            <td>html body div#container div.main-content.clearfix h1.p-name</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td>Price</td>
+                            <td>PC Garage</td>
+                            <td>Product</td>
+                            <td>html > body > #container > .main-content > #product-container > form > #product-top > .product-sell-container > #psbx > .ps-top > .ps-sell-price > :nth-child(2)</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td>Bonus</td>
+                            <td>PC Garage</td>
+                            <td>Product</td>
+                            <td>html > body > #container > .main-content > #product-container > form > #product-top > .product-info > .pi-promo > table > tbody > tr > td</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td>Delivery</td>
+                            <td>PC Garage</td>
+                            <td>Product</td>
+                            <td>html > body > #container > .main-content > #product-container > form > #product-top > .product-info > .pi-location > .pi-timespan > :nth-child(3)</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td>Rating</td>
+                            <td>PC Garage</td>
+                            <td>Product</td>
+                            <td>html > body > #container > .main-content > #product-container > form > #pe-wrap > .product-extra > #pe-rating > .pe-content > .comments > .average-rating > .ar-title > p</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td>Info</td>
+                            <td>Wikipedia</td>
+                            <td>Article</td>
+                            <td>html > body > #content > #bodyContent > #mw-content-text > .mw-parser-output > p</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td>Product Urls</td>
+                            <td>PC Garage</td>
+                            <td>Product Category</td>
+                            <td>html > body > #container > .main-content > #content-wrapper > #listing-right > .grid-products > div > .product-box > .pb-specs-container > .pb-name > a</td>
+                            <td>No</td>
+                        </tr>
+                        </tbody></table>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer clearfix">
+                    <ul class="pagination pagination-sm no-margin pull-right">
+                        <li><a href="#">«</a></li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">»</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+{% endblock %}

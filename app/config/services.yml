@@ -2,8 +2,20 @@
 # http://symfony.com/doc/current/service_container.html
 parameters:
     #parameter_name: value
+    my_admin_bundle.show_user_listener.class: AppBundle\EventListener\MyShowUserListener
+    my_admin_bundle.menu_listener.class: AppBundle\EventListener\MyMenuItemListListener
+
 
 services:
     #service_name:
     #    class: AppBundle\Directory\ClassName
     #    arguments: ['@another_service_name', 'plain_value', '%parameter_name%']
+    my_admin_bundle.show_user_listener:
+        class: %my_admin_bundle.show_user_listener.class%
+        arguments: [ '@service_container' ]
+        tags:
+            - { name: kernel.event_listener, event: theme.navbar_user, method: onShowUser }
+    my_admin_bundle.menu_listener:
+        class: %my_admin_bundle.menu_listener.class%
+        tags:
+            - { name: kernel.event_listener, event:theme.sidebar_setup_menu, method:onSetupMenu }

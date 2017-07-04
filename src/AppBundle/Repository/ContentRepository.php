@@ -28,4 +28,20 @@ class ContentRepository extends \Doctrine\ORM\EntityRepository
 
 		return $result;
 	}
+
+	public function findOneByContentUrl($contentUrl)
+	{
+		$query = $this->createQueryBuilder('c')
+			->select('c')
+			->where('c.url = :contentUrl')
+			->setParameter('contentUrl', $contentUrl)
+			->getQuery();
+
+		$result = $query->getResult();
+
+		$query->free();
+		unset($query);
+
+		return $result;
+	}
 }

@@ -21,6 +21,10 @@ class AppKernel extends Kernel
             new FOS\RestBundle\FOSRestBundle(),
             new ApiBundle\ApiBundle(),
             new ProxyBundle\ProxyBundle(),
+            new Avanzu\AdminThemeBundle\AvanzuAdminThemeBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
+            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
+            new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

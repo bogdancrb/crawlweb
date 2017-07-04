@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 class TemplateConfigurator extends BaseRestController
 {
 	/**
-	 * @Route("/template/data", name="post_template_data")
+	 * @Route("/admin/template/data", name="post_template_data")
 	 * @Method({"POST"})
 	 */
 	public function postTemplateDataAction(Request $request)
@@ -115,7 +115,7 @@ class TemplateConfigurator extends BaseRestController
 	}
 
 	/**
-	 * @Route("/template/search/all", name="get_template_search_all")
+	 * @Route("/admin/template/search/all", name="get_template_search_all")
 	 * @Method({"GET"})
 	 */
 	public function getAllSearchDataAction()

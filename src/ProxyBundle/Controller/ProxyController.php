@@ -88,7 +88,10 @@ class ProxyController extends Controller
                 header("HTTP/1.1 302 Found");
                 header("Location: ".Config::get('index_redirect'));
             } else {
-                echo render_template($templatePath . 'first_page.php', array('version' => Proxy::VERSION));
+                return $this->render('admin/proxy_first_page.html.twig', [
+                    'url' => '',
+                    'version' => Proxy::VERSION
+                ]);
             }
 
             exit;
@@ -152,16 +155,15 @@ class ProxyController extends Controller
                 header("Location: {$url}");
 
             } else {
-
-                echo render_template($templatePath . 'first_page.php', array(
+                return $this->render('admin/proxy_first_page.html.twig', [
                     'url' => $url,
                     'error_msg' => $ex->getMessage(),
                     'version' => Proxy::VERSION
-                ));
+                ]);
             }
         }
 
-        exit;
+        return new Response();
     }
 
     /**
