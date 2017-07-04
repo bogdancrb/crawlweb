@@ -1,0 +1,21 @@
+AppBundle\Entity\User:
+    type:  entity
+    table: user
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        apiToken:
+            type: string
+            nullable: false
+            length: 64
+            options:
+                fixed: false
+    oneToMany:
+        administrator:
+            targetEntity: Administrator
+            mappedBy: user
+    lifecycleCallbacks: {  }
+    repositoryClass: AppBundle\Repository\UserRepository
