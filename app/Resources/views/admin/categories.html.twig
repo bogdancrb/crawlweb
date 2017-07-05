@@ -24,38 +24,18 @@
                 <div class="box-body table-responsive no-padding">
                     <table class="table table-hover">
                         <tbody><tr>
-
                             <th>Name</th>
                             <th>Total sites</th>
-
-
                         </tr>
-                        <tr>
 
-                            <td>e-Commerce</td>
-                            <td>2</td>
-                        </tr>
-                        <tr>
-
-                            <td>Informational</td>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-
-                            <td>Online Marketplace</td>
-                            <td>0</td>
-                        </tr>
-                        <tr>
-
-                            <td>News</td>
-                            <td>0</td>
-                        </tr>
-                        <tr>
-
-                            <td>Movie database</td>
-                            <td>1</td>
-                        </tr>
-                        </tbody></table>
+                        {% for result in results %}
+                            <tr>
+                                <td>{{ result.name }}</td>
+                                <td>{{ result.totalSites }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
                 <!-- /.box-body -->
             </div>

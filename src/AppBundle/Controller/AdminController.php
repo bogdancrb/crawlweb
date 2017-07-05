@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -24,7 +25,12 @@ class AdminController extends Controller
 	 */
 	public function viewCategoriesAction()
 	{
-		return $this->render(self::VIEWS_FOLDER_NAME . DIRECTORY_SEPARATOR . 'categories.html.twig');
+		$results = $this->getDoctrine()->getRepository('AppBundle:Category')->getCategoriesWithSitesTotals();
+
+		return $this->render(self::VIEWS_FOLDER_NAME . DIRECTORY_SEPARATOR . 'categories.html.twig', [
+				'results' => $results
+			]
+		);
 	}
 
 	/**
@@ -33,7 +39,12 @@ class AdminController extends Controller
 	 */
 	public function viewSitesAction()
 	{
-		return $this->render(self::VIEWS_FOLDER_NAME . DIRECTORY_SEPARATOR . 'sites.html.twig');
+		$results = $this->getDoctrine()->getRepository('AppBundle:Sites')->getSitesWithTotalContent();
+
+		return $this->render(self::VIEWS_FOLDER_NAME . DIRECTORY_SEPARATOR . 'sites.html.twig', [
+			'results' => $results
+			]
+		);
 	}
 
 	/**
@@ -42,7 +53,20 @@ class AdminController extends Controller
 	 */
 	public function viewTemplatesAction()
 	{
-		return $this->render(self::VIEWS_FOLDER_NAME . DIRECTORY_SEPARATOR . 'templates.html.twig');
+		$results = $this->getDoctrine()->getRepository('AppBundle:Template')->getTemplatesAndTotalTemplateElements();
+
+		foreach ($results as $key => $result)
+		{
+			/** @var DateTime $lastNotifiedDate */
+			$lastNotifiedDate = $result['outdatedLastNotified'];
+
+			$results[$key]['outdatedLastNotified'] = !empty($lastNotifiedDate) ? $lastNotifiedDate->format("d-m-Y H:i:s") : '';
+		}
+
+		return $this->render(self::VIEWS_FOLDER_NAME . DIRECTORY_SEPARATOR . 'templates.html.twig', [
+				'results' => $results
+			]
+		);
 	}
 
 	/**
@@ -51,7 +75,12 @@ class AdminController extends Controller
 	 */
 	public function viewTemplateElementsAction()
 	{
-		return $this->render(self::VIEWS_FOLDER_NAME . DIRECTORY_SEPARATOR . 'template_elements.html.twig');
+		$results = $this->getDoctrine()->getRepository('AppBundle:TemplateElement')->getTemplateElements();
+
+		return $this->render(self::VIEWS_FOLDER_NAME . DIRECTORY_SEPARATOR . 'template_elements.html.twig', [
+				'results' => $results
+			]
+		);
 	}
 
 	/**
@@ -60,7 +89,20 @@ class AdminController extends Controller
 	 */
 	public function viewContentAction()
 	{
-		return $this->render(self::VIEWS_FOLDER_NAME . DIRECTORY_SEPARATOR . 'content.html.twig');
+		$results = $this->getDoctrine()->getRepository('AppBundle:Content')->getContent();
+
+		foreach ($results as $key => $result)
+		{
+			/** @var DateTime $lastNotifiedDate */
+			$lastAccessedDate = $result['lastAccessed'];
+
+			$results[$key]['lastAccessed'] = !empty($lastAccessedDate) ? $lastAccessedDate->format("d-m-Y H:i:s") : '';
+		}
+
+		return $this->render(self::VIEWS_FOLDER_NAME . DIRECTORY_SEPARATOR . 'content.html.twig', [
+			'results' => $results
+			]
+		);
 	}
 
 	/**

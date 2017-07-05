@@ -50,4 +50,21 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository
 
 		return $result;
 	}
+	
+	public function getCategoriesWithSitesTotals()
+	{
+		$query = $this->createQueryBuilder('c')
+			->select('c.name', 'COUNT(cs.id) as totalSites')
+			->leftJoin('c.sites', 'cs')
+			->groupBy('c.name')
+			->orderBy('c.name', 'ASC')
+			->getQuery();
+
+		$result = $query->getArrayResult();
+
+		$query->free();
+		unset($query);
+
+		return $result;
+	}
 }

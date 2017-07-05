@@ -27,4 +27,21 @@ class TemplateRepository extends \Doctrine\ORM\EntityRepository
 
 		return $result;
 	}
+
+	public function getTemplatesAndTotalTemplateElements()
+	{
+		$query = $this->createQueryBuilder('t')
+			->select('t.name', 't.outdatedLastNotified', 'COUNT(tte.id) as totalTemplateElements')
+			->leftJoin('t.templateElement', 'tte')
+			->groupBy('t.name')
+			->orderBy('t.name', 'ASC')
+			->getQuery();
+
+		$result = $query->getArrayResult();
+
+		$query->free();
+		unset($query);
+
+		return $result;
+	}
 }

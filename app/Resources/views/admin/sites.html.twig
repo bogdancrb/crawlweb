@@ -28,27 +28,15 @@
                             <th>Main url</th>
                             <th>Total content crawled</th>
                         </tr>
-                        <tr>
-                            <td>PC Garage</td>
-                            <td>http://www.pcgarage.ro</td>
-                            <td>197</td>
-                        </tr>
-                        <tr>
-                            <td>Wikipedia</td>
-                            <td>https://en.wikipedia.org</td>
-                            <td>2</td>
-                        </tr>
-                        <tr>
-                            <td>Imdb</td>
-                            <td>http://www.imdb.com</td>
-                            <td>752</td>
-                        </tr>
-                        <tr>
-                            <td>Altex</td>
-                            <td>http://altex.ro</td>
-                            <td>1</td>
-                        </tr>
-                        </tbody></table>
+                        {% for result in results %}
+                            <tr>
+                                <td>{{ result.name }}</td>
+                                <td>{{ result.mainUrl }}</td>
+                                <td>{{ result.totalContent }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
                 <!-- /.box-body -->
             </div>

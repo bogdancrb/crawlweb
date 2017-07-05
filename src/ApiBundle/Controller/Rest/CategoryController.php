@@ -11,11 +11,11 @@ class CategoryController extends BaseRestController
 {
 	/**
 	 * Get all category names from the database
-	 * @Get("/api/{token}/categories/") OR @Get("/api/{token}/categories")
-	 * @Get("/api/categories/") OR @Get("/api/categories")
+	 * @Get("/api/{token}/categories/", requirements={"url" = ".*\/$"}, methods={"GET"})
+	 * @Get("/api/categories/", requirements={"url" = ".*\/$"}, methods={"GET"})
 	 *
 	 * @ApiDoc(
-	 *  resource=true,
+	 *  resource=false,
 	 *  description="Get all category names from the database"
 	 * )
 	 *

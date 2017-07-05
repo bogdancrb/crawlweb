@@ -27,4 +27,21 @@ class SitesRepository extends \Doctrine\ORM\EntityRepository
 
 		return $result;
 	}
+
+	public function getSitesWithTotalContent()
+	{
+		$query = $this->createQueryBuilder('s')
+			->select('s.name', 's.mainUrl', 'COUNT(sc.id) as totalContent')
+			->leftJoin('s.content', 'sc')
+			->groupBy('s.name')
+			->orderBy('s.name', 'ASC')
+			->getQuery();
+
+		$result = $query->getArrayResult();
+
+		$query->free();
+		unset($query);
+
+		return $result;
+	}
 }

@@ -44,4 +44,21 @@ class ContentRepository extends \Doctrine\ORM\EntityRepository
 
 		return $result;
 	}
+
+	public function getContent()
+	{
+		$query = $this->createQueryBuilder('c')
+			->select('c.url', 'c.lastAccessed', 'cs.name')
+			->innerJoin('c.sites', 'cs')
+			->setMaxResults('100')
+			->orderBy('cs.name')
+			->getQuery();
+
+		$result = $query->getArrayResult();
+
+		$query->free();
+		unset($query);
+
+		return $result;
+	}
 }

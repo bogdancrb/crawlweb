@@ -10,14 +10,14 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 class TagsController extends BaseRestController
 {
 	/**
-	 * Retrieve all template elements (a.k.a. tags) available
+	 * Retrieve all available tags
 	 *
-	 * @Get("/api/tags") OR @Get("/api/tags/")
-	 * @Get("/api/{token}/tags") OR @Get("/api/{token}/tags/")
+	 * @Get("/api/tags/", requirements={"url" = ".*\/$"}, methods={"GET"})
+	 * @Get("/api/{token}/tags/", requirements={"url" = ".*\/$"}, methods={"GET"})
 	 *
 	 * @ApiDoc(
-	 *  resource=true,
-	 *  description="Retrieve all template elements (a.k.a. tags) available"
+	 *  resource=false,
+	 *  description="Retrieve all available tags"
 	 * )
 	 *
 	 * @param null $token
@@ -49,19 +49,15 @@ class TagsController extends BaseRestController
 	}
 
 	/**
-	 * Retrieve only template elements for requested site name
+	 * Retrieve only tags for requested site name
+	 *
+	 * @ApiDoc(
+	 *  resource=false,
+	 *  description="Retrieve only tags for requested site name"
+	 * )
 	 *
 	 * @Get("/api/tags/site/{siteName}")
 	 * @Get("/api/{token}/tags/site/{siteName}")
-	 *
-	 * @ApiDoc(
-	 *  resource=true,
-	 *  description="This is a description of your API method",
-	 *  filters={
-	 *      {"name"="a-filter", "dataType"="integer"},
-	 *      {"name"="another-filter", "dataType"="string", "pattern"="(foo|bar) ASC|DESC"}
-	 *  }
-	 * )
 	 *
 	 * @param null $token
 	 * @param $siteName
@@ -97,6 +93,11 @@ class TagsController extends BaseRestController
 	/**
 	 * Retrieve only template elements for requested category name
 	 *
+	 * @ApiDoc(
+	 *  resource=false,
+	 *  description="Retrieve only template elements for requested category name"
+	 * )
+	 *
 	 * @Get("/api/tags/category/{categoryName}")
 	 * @Get("/api/{token}/tags/category/{categoryName}")
 	 * @param $categoryName
@@ -131,6 +132,11 @@ class TagsController extends BaseRestController
 
 	/**
 	 * Retrieve only template elements for requested site category name
+	 *
+	 * @ApiDoc(
+	 *  resource=false,
+	 *  description="Retrieve only template elements for requested site category name"
+	 * )
 	 *
 	 * @Get("/api/tags/siteCategory/{siteCategoryName}") OR @Get("/api/tags/sitecategory/{siteCategoryName}")
 	 * @Get("/api/{token}/tags/siteCategory/{siteCategoryName}") OR @Get("/api/{token}/tags/sitecategory/{siteCategoryName}")

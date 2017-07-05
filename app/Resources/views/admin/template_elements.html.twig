@@ -31,55 +31,15 @@
                             <th>CSS Path</th>
                             <th>Extract only urls</th>
                         </tr>
-                        <tr>
-                            <td>Title</td>
-                            <td>PC Garage</td>
-                            <td>Product</td>
-                            <td>html body div#container div.main-content.clearfix h1.p-name</td>
-                            <td>No</td>
-                        </tr>
-                        <tr>
-                            <td>Price</td>
-                            <td>PC Garage</td>
-                            <td>Product</td>
-                            <td>html > body > #container > .main-content > #product-container > form > #product-top > .product-sell-container > #psbx > .ps-top > .ps-sell-price > :nth-child(2)</td>
-                            <td>No</td>
-                        </tr>
-                        <tr>
-                            <td>Bonus</td>
-                            <td>PC Garage</td>
-                            <td>Product</td>
-                            <td>html > body > #container > .main-content > #product-container > form > #product-top > .product-info > .pi-promo > table > tbody > tr > td</td>
-                            <td>No</td>
-                        </tr>
-                        <tr>
-                            <td>Delivery</td>
-                            <td>PC Garage</td>
-                            <td>Product</td>
-                            <td>html > body > #container > .main-content > #product-container > form > #product-top > .product-info > .pi-location > .pi-timespan > :nth-child(3)</td>
-                            <td>No</td>
-                        </tr>
-                        <tr>
-                            <td>Rating</td>
-                            <td>PC Garage</td>
-                            <td>Product</td>
-                            <td>html > body > #container > .main-content > #product-container > form > #pe-wrap > .product-extra > #pe-rating > .pe-content > .comments > .average-rating > .ar-title > p</td>
-                            <td>No</td>
-                        </tr>
-                        <tr>
-                            <td>Info</td>
-                            <td>Wikipedia</td>
-                            <td>Article</td>
-                            <td>html > body > #content > #bodyContent > #mw-content-text > .mw-parser-output > p</td>
-                            <td>No</td>
-                        </tr>
-                        <tr>
-                            <td>Product Urls</td>
-                            <td>PC Garage</td>
-                            <td>Product Category</td>
-                            <td>html > body > #container > .main-content > #content-wrapper > #listing-right > .grid-products > div > .product-box > .pb-specs-container > .pb-name > a</td>
-                            <td>No</td>
-                        </tr>
+                        {% for result in results %}
+                            <tr>
+                                <td>{{ result.name }}</td>
+                                <td>{{ result.siteName }}</td>
+                                <td>{{ result.templateName }}</td>
+                                <td>{{ result.cssPath }}</td>
+                                <td>{{ result.ignoreAttributeValue }}</td>
+                            </tr>
+                        {% endfor %}
                         </tbody></table>
                 </div>
                 <!-- /.box-body -->

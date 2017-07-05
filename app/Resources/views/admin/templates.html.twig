@@ -29,37 +29,17 @@
                             <th>Outdated last notified date</th>
                             <th>Total template elements</th>
                         </tr>
-                        <tr>
-                            <td>Product</td>
-                            <td>-</td>
-                            <td>5</td>
-                        </tr>
-                        <tr>
-                            <td>Article</td>
-                            <td>-</td>
-                            <td>2</td>
-                        </tr>
-                        <tr>
-                            <td>Product Category</td>
-                            <td>-</td>
-                            <td>2</td>
-                        </tr>
-                        <tr>
-                            <td>Movie</td>
-                            <td>2017-06-30 20:00:49</td>
-                            <td>4</td>
-                        </tr>
-                        <tr>
-                            <td>Top Rated</td>
-                            <td>-</td>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <td>Product</td>
-                            <td>-</td>
-                            <td>3</td>
-                        </tr>
-                        </tbody></table>
+
+                        {% for result in results %}
+                            <tr>
+                                <td>{{ result.name }}</td>
+                                <td>{{ result.outdatedLastNotified }}</td>
+                                <td>{{ result.totalTemplateElements }}</td>
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
                 </div>
                 <!-- /.box-body -->
             </div>

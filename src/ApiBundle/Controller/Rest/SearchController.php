@@ -13,7 +13,7 @@ class SearchController extends BaseRestController
 	 * Make a general search within the API after a value
 	 *
 	 * @ApiDoc(
-	 *  resource=true,
+	 *  resource=false,
 	 *  description="Make a general search within the API after a value",
 	 *  requirements={
 	 *      {
@@ -64,17 +64,17 @@ class SearchController extends BaseRestController
 	 * Make a search after the template element (tag) and value
 	 *
 	 * @ApiDoc(
-	 *  resource=true,
+	 *  resource=false,
 	 *  description="Make a search after the template element (tag) and value",
 	 *  requirements={
 	 *      {
-	 *          "name"="searchByTemplateElement",
+	 *          "name"="searchByTagName",
 	 *          "dataType"="string",
 	 *          "requirement"="[a-zA-Z0-9]",
 	 *          "description"="Tag name"
 	 *      },
 	 *     {
-	 *          "name"="searchForAttribute",
+	 *          "name"="searchTerm",
 	 *          "dataType"="string",
 	 *          "requirement"="[a-zA-Z0-9]",
 	 *          "description"="Search term"
@@ -82,14 +82,14 @@ class SearchController extends BaseRestController
 	 *  },
 	 * )
 	 *
-	 * @Get("/api/{token}/search/tag/{searchByTemplateElement}/value/{searchForAttribute}", name="search_token_tag_value")
-	 * @Get("/api/search/tag/{searchByTemplateElement}/value/{searchForAttribute}", name="search_logged_tag_value")
+	 * @Get("/api/{token}/search/tag/{searchByTagName}/value/{searchTerm}", name="search_token_tag_value")
+	 * @Get("/api/search/tag/{searchByTagName}/value/{searchTerm}", name="search_logged_tag_value")
 	 * @param null $token
-	 * @param $searchByTemplateElement
-	 * @param $searchForAttribute
+	 * @param $searchByTagName
+	 * @param $searchTerm
 	 * @return Response
 	 */
-	public function getAttributeByTemplateElement($token = null, $searchByTemplateElement, $searchForAttribute)
+	public function getAttributeByTemplateElement($token = null, $searchByTagName, $searchTerm)
 	{
 		if (!$this->checkIfUserLogged($token))
 		{
@@ -105,8 +105,8 @@ class SearchController extends BaseRestController
 			$attributes = $this->getDoctrine()
 				->getRepository('AppBundle:Attributes')
 				->searchAttributesFor([
-					'searchByTemplateElement' => $searchByTemplateElement,
-					'searchTerm'              => $searchForAttribute
+					'searchByTemplateElement' => $searchByTagName,
+					'searchTerm'              => $searchTerm
 				]);
 
 			$this->response['message'] = $this->addContentData($attributes);

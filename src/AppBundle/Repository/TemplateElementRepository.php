@@ -135,4 +135,21 @@ class TemplateElementRepository extends \Doctrine\ORM\EntityRepository
 
 		return $retResult;
 	}
+
+	public function getTemplateElements()
+	{
+		$query = $this->createQueryBuilder('te')
+			->select('te.name', 'tet.name as templateName', 'te.cssPath', 'te.ignoreAttributeValue', 'tets.name as siteName')
+			->innerJoin('te.template', 'tet')
+			->innerJoin('tet.sites', 'tets')
+			->orderBy('tets.name')
+			->getQuery();
+
+		$result = $query->getArrayResult();
+
+		$query->free();
+		unset($query);
+
+		return $result;
+	}
 }

@@ -17,11 +17,6 @@ class User extends BaseUser implements ThemeUser
     protected $id;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $administrator;
-
-    /**
      * @var string
      */
     private $apiToken;
@@ -115,40 +110,6 @@ class User extends BaseUser implements ThemeUser
     public function getPassword()
     {
         return $this->password;
-    }
-
-    /**
-     * Add administrator
-     *
-     * @param \AppBundle\Entity\Administrator $administrator
-     *
-     * @return User
-     */
-    public function addAdministrator(\AppBundle\Entity\Administrator $administrator)
-    {
-        $this->administrator[] = $administrator;
-
-        return $this;
-    }
-
-    /**
-     * Remove administrator
-     *
-     * @param \AppBundle\Entity\Administrator $administrator
-     */
-    public function removeAdministrator(\AppBundle\Entity\Administrator $administrator)
-    {
-        $this->administrator->removeElement($administrator);
-    }
-
-    /**
-     * Get administrator
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getAdministrator()
-    {
-        return $this->administrator;
     }
 
     public function getAvatar()

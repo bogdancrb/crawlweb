@@ -5,14 +5,22 @@ namespace ApiBundle\Controller\Rest;
 use ApiBundle\Controller\Rest\Base\BaseRestController;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\Annotations\Get;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 class SiteCategoryController extends BaseRestController
 {
 	/**
-	 * @Get("/api/{token}/siteCategories/") OR @Get("/api/{token}/siteCategories")
-	 * @Get("/api/{token}/sitecategories/") OR @Get("/api/{token}/sitecategories")
-	 * @Get("/api/siteCategories/") OR @Get("/api/siteCategories")
-	 * @Get("/api/sitecategories/") OR @Get("/api/sitecategories")
+	 * Get all the site categories available within the system
+	 *
+	 * @ApiDoc(
+	 *  resource=false,
+	 *  description="Get all the site categories available within the system",
+	 * )
+	 *
+	 * @Get("/api/{token}/siteCategories/", requirements={"url" = ".*\/$"}, methods={"GET"})
+	 * @Get("/api/{token}/sitecategories/", requirements={"url" = ".*\/$"}, methods={"GET"})
+	 * @Get("/api/siteCategories/", requirements={"url" = ".*\/$"}, methods={"GET"})
+	 * @Get("/api/sitecategories/", requirements={"url" = ".*\/$"}, methods={"GET"})
 	 * @param $token
 	 * @return Response
 	 */

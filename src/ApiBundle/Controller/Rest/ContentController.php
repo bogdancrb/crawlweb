@@ -27,7 +27,7 @@ class ContentController extends BaseRestController
 	 * )
 	 *
 	 * @ApiDoc(
-	 *  resource=true,
+	 *  resource=false,
 	 *  description="Request new content to be added into the database for crawling",
 	 *  requirements={
 	 *     {
@@ -37,7 +37,7 @@ class ContentController extends BaseRestController
 	 *          "description"="The url including the http:// protocol"
 	 *
 	 *     }
- *     }
+	 * 	 }
 	 * )
 	 *
 	 * @param null $token
