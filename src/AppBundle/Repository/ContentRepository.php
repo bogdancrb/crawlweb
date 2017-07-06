@@ -51,7 +51,7 @@ class ContentRepository extends \Doctrine\ORM\EntityRepository
 			->select('c.url', 'c.lastAccessed', 'cs.name')
 			->innerJoin('c.sites', 'cs')
 			->setMaxResults('100')
-			->orderBy('cs.name')
+			->orderBy('cs.id', 'DESC')
 			->getQuery();
 
 		$result = $query->getArrayResult();

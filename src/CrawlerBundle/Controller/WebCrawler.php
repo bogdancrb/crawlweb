@@ -64,7 +64,12 @@ class WebCrawler
 	{
 		$sleepSecondsConfig = $this->container->getParameter('crawler.sleep_seconds');
 		$timeIntervalConfig = $this->container->getParameter('crawler.time_interval');
-		$proxyIps = $this->container->getParameter('crawler.proxy_ips');
+		$proxyIps = $this->container->hasParameter('crawler.proxy_ips');
+
+		if (!empty($proxyIps))
+		{
+			$proxyIps = $this->container->getParameter('crawler.proxy_ips');
+		}
 
 		$crawlContent = $this->doctrine
 			->getRepository('AppBundle:Content')
@@ -73,12 +78,16 @@ class WebCrawler
 		/** @var Content $content */
 		foreach ($crawlContent as $content)
 		{
-			$proxyIp = $this->getProxyIpAndAgent($proxyIps);
+			if (!empty($proxyIps))
+			{
+				$proxyIp = $this->getProxyIpAndAgent($proxyIps);
 
-			var_dump($proxyIp);
+				var_dump($proxyIp);
 
-			$this->client->getClient()->setDefaultOption('config/curl/'.CURLOPT_PROXY, 'http://' . $proxyIp['IP'] . ':80');
-			$this->client->setHeader('User-Agent', $proxyIp['Agent']);
+				$this->client->getClient()->setDefaultOption('config/curl/' . CURLOPT_PROXY, 'http://' . $proxyIp['IP'] . ':80');
+
+				$this->client->setHeader('User-Agent', $proxyIp['Agent']);
+			}
 
 			$connection = $this->entityManager->getConnection();
 			$connection->beginTransaction();
